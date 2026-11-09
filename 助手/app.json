@@ -1,0 +1,17 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/plan/plan",
+    "pages/profile/profile"
+  ],
+  "window": {
+    "navigationStyle": "custom",
+    "navigationBarTitleText": "AI搭子",
+    "navigationBarBackgroundColor": "#FFF8F4",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#FFF8F4",
+    "backgroundTextStyle": "light"
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

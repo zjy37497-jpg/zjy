@@ -1,0 +1,156 @@
+page {
+  --coral: #ff776b;
+  --coral-deep: #ff5f58;
+  --peach: #ffb19a;
+  --orange: #ffb04f;
+  --rose-soft: #ffe4e9;
+  --cream: #fff4dd;
+  --mint-soft: #ddf7f0;
+  --sky-soft: #e7efff;
+  --ink: #2b1d1e;
+  --ink-soft: #5e5454;
+  --muted: #aaa3a5;
+  --line: #f1eef0;
+  --surface: #ffffff;
+  --page: #fdffff;
+  --radius-pill: 999rpx;
+  --radius-lg: 30rpx;
+  --radius-md: 22rpx;
+  --radius-sm: 16rpx;
+  background: var(--page);
+  color: var(--ink);
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-size: 28rpx;
+  line-height: 1.5;
+  letter-spacing: 0;
+  box-sizing: border-box;
+}
+
+view,
+text,
+image,
+button,
+input,
+textarea,
+scroll-view {
+  box-sizing: border-box;
+}
+
+button {
+  margin: 0;
+  padding: 0;
+  line-height: 1;
+  background: transparent;
+  color: inherit;
+}
+
+button::after {
+  border: 0;
+}
+
+.app-page {
+  min-height: 100vh;
+  background: var(--page);
+  overflow: hidden;
+}
+
+.custom-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 80;
+  background: transparent;
+}
+
+.nav-row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 0 30rpx;
+}
+
+.nav-back {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 58rpx;
+  height: 64rpx;
+  flex: none;
+}
+
+.nav-back-icon {
+  font-size: 54rpx;
+  font-weight: 300;
+  line-height: 1;
+  color: var(--ink);
+}
+
+.nav-title {
+  font-size: 33rpx;
+  font-weight: 650;
+  color: var(--ink);
+}
+
+.nav-art-shell {
+  position: relative;
+  width: 100%;
+}
+
+.nav-art-image {
+  display: block;
+  width: 750rpx;
+  height: 88rpx;
+}
+
+.nav-hit {
+  position: absolute;
+  top: 0;
+  height: 88rpx;
+  background: transparent;
+}
+
+.nav-hit-back {
+  left: 0;
+  width: 140rpx;
+}
+
+.nav-hit-add {
+  right: 128rpx;
+  width: 84rpx;
+}
+
+.nav-hit-more {
+  right: 14rpx;
+  width: 96rpx;
+}
+
+.nav-title.with-back {
+  margin-left: 6rpx;
+}
+
+.nav-badge {
+  display: inline-flex;
+  align-items: center;
+  height: 38rpx;
+  margin-left: 12rpx;
+  padding: 0 14rpx;
+  border-radius: var(--radius-pill);
+  background: rgba(255, 255, 255, 0.72);
+  color: #c27665;
+  font-size: 19rpx;
+}
+
+.muted {
+  color: var(--muted);
+  font-size: 25rpx;
+  line-height: 1.7;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  opacity: 0;
+}

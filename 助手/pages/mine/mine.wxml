@@ -1,0 +1,107 @@
+<view class="app-page mine-page">
+  <view class="custom-nav">
+    <view style="padding-top: {{statusBarHeight}}px;">
+      <view class="nav-row" style="height: {{navBarHeight}}px;">
+        <button class="nav-back" bindtap="goBack" aria-label="返回">
+          <text class="nav-back-icon">‹</text>
+        </button>
+        <view class="nav-title with-back">我的搭子</view>
+      </view>
+    </view>
+  </view>
+
+  <scroll-view class="mine-scroll" style="padding-top: {{navTotalHeight}}px;" scroll-y>
+    <view class="mine-wrap">
+      <view class="profile-hero">
+        <view class="profile-copy">
+          <view class="profile-kicker">AI 健身搭子</view>
+          <view class="profile-title">按自己的节奏来</view>
+          <view class="profile-desc">每一次小小的行动，都算数。</view>
+        </view>
+        <view class="profile-mascot">
+          <view class="mini-face">
+            <view class="mini-eye"></view>
+            <view class="mini-eye"></view>
+          </view>
+          <view class="profile-spark">✦</view>
+        </view>
+      </view>
+
+      <view class="stats-row">
+        <view class="stat-item">
+          <text class="stat-value">{{hasPlan ? plan.days : '--'}}</text>
+          <text class="stat-label">每周训练</text>
+        </view>
+        <view class="stat-divider"></view>
+        <view class="stat-item">
+          <text class="stat-value">{{done ? '完成' : '待开始'}}</text>
+          <text class="stat-label">今日状态</text>
+        </view>
+        <view class="stat-divider"></view>
+        <view class="stat-item">
+          <text class="stat-value">{{hasPlan ? weight + 'kg' : '--'}}</text>
+          <text class="stat-label">当前体重</text>
+        </view>
+      </view>
+
+      <view class="mine-card goal-card">
+        <view class="card-head">
+          <view>
+            <view class="card-title">我的运动目标</view>
+            <view class="card-subtitle">先从真正想坚持的方向开始</view>
+          </view>
+          <view class="card-mark card-mark-coral">◎</view>
+        </view>
+        <picker range="{{goals}}" value="{{goalIndex}}" bindchange="changeGoal">
+          <view class="goal-picker">
+            <text>{{goal}}</text>
+            <text class="goal-arrow">›</text>
+          </view>
+        </picker>
+      </view>
+
+      <view class="mine-card plan-card" bindtap="openPlan">
+        <view class="card-head">
+          <view class="plan-heading-wrap">
+            <view class="card-title">{{hasPlan ? plan.title : '还没有训练计划'}}</view>
+            <view class="card-subtitle">{{hasPlan ? plan.summary : '回答几个简单问题，生成适合你的安排'}}</view>
+          </view>
+          <view class="card-mark card-mark-orange">🏋️</view>
+        </view>
+        <view class="plan-action-row">
+          <text>{{hasPlan ? '查看或重新生成' : '去生成计划'}}</text>
+          <text class="plan-arrow">→</text>
+        </view>
+      </view>
+
+      <view class="mine-card info-card">
+        <view class="card-head">
+          <view>
+            <view class="card-title">关于 AI搭子</view>
+            <view class="card-subtitle">轻量、私密的本地演示版本</view>
+          </view>
+          <view class="version-pill">v1.0</view>
+        </view>
+        <view class="info-line">
+          <text class="info-label">对话记录</text>
+          <text>仅保留在当前页面</text>
+        </view>
+        <view class="info-line">
+          <text class="info-label">计划与目标</text>
+          <text>保存在本机</text>
+        </view>
+        <view class="info-line">
+          <text class="info-label">健康建议</text>
+          <text>仅作一般健身参考</text>
+        </view>
+      </view>
+
+      <view class="health-note">
+        存在伤病、慢性疾病或特殊身体情况时，请先咨询合适的专业人员。
+      </view>
+
+      <button class="clear-button" bindtap="clearData">清除搭子本地数据</button>
+      <view class="bottom-space"></view>
+    </view>
+  </scroll-view>
+</view>

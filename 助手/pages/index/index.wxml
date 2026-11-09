@@ -1,0 +1,297 @@
+<view class="app-page index-page">
+  <image
+    wx:if="{{!messages.length}}"
+    class="page-background"
+    src="/images/figma/hero-background.png"
+    mode="scaleToFill"
+  />
+  <image
+    wx:else
+    class="page-background"
+    src="/images/figma/chat-background.jpg"
+    mode="scaleToFill"
+  />
+  <view wx:if="{{!messages.length}}" class="hero-flow">
+    <view class="flow-blob flow-pink"></view>
+    <view class="flow-blob flow-peach"></view>
+    <view class="flow-blob flow-lilac"></view>
+    <view class="flow-blob flow-mint"></view>
+    <view class="flow-blob flow-rose"></view>
+  </view>
+  <view class="custom-nav">
+    <view style="padding-top: {{statusBarHeight}}px;">
+      <view class="nav-art-shell" style="height: {{navBarHeight}}px;">
+        <image class="nav-art-image" src="/images/figma/nav.png" mode="scaleToFill" />
+        <button class="nav-hit nav-hit-back" bindtap="handleBack" aria-label="返回"></button>
+        <button class="nav-hit nav-hit-add" bindtap="openAttach" aria-label="添加记录"></button>
+        <button class="nav-hit nav-hit-more" bindtap="openMore" aria-label="更多"></button>
+      </view>
+    </view>
+  </view>
+
+  <scroll-view
+    class="index-scroll"
+    style="padding-top: {{navTotalHeight}}px;"
+    scroll-y
+    scroll-with-animation
+    scroll-into-view="{{anchor}}"
+  >
+    <view wx:if="{{!messages.length}}">
+      <view class="home-hero">
+        <view class="mascot-stage">
+          <image class="mascot-body" src="/images/figma/mascot-body.png" mode="scaleToFill" />
+          <image class="mascot-star-layer" src="/images/figma/mascot-star-full.png" mode="scaleToFill" />
+          <view class="mascot-eyes-layer">
+            <image class="mascot-eye-left" src="/images/figma/mascot-eye-left.png" mode="scaleToFill" />
+            <image class="mascot-eye-right" src="/images/figma/mascot-eye-right.png" mode="scaleToFill" />
+            <image class="mascot-eye-open" src="/images/figma/mascot-eye-left.png" mode="scaleToFill" />
+          </view>
+          <image class="mascot-spark" src="/images/figma/mascot-wink-spark.png" mode="scaleToFill" />
+          <view class="mascot-dot mascot-dot-a"></view>
+          <view class="mascot-dot mascot-dot-b"></view>
+        </view>
+        <view class="hero-copy">
+          <image class="hero-slogan" src="/images/figma/hero-slogan.png" mode="aspectFit" />
+        </view>
+      </view>
+
+      <view class="home-section function-section">
+        <view class="home-section-title">常用功能</view>
+        <view class="function-grid">
+          <view id="ripple-card-1" data-rippleid="card-1" bindtouchstart="startTouchRipple" class="function-item tap-feedback" hover-class="tap-feedback-active" hover-start-time="0" hover-stay-time="180" data-action="plan" bindtap="openQuick">
+          <view wx:if="{{ripple.id === 'card-1'}}" class="touch-ripple" style="left:{{ripple.x}}px;top:{{ripple.y}}px;" />
+            <image class="function-icon" src="/images/figma/icon-plan.png" mode="aspectFit" />
+            <text>训练计划</text>
+          </view>
+          <view id="ripple-card-2" data-rippleid="card-2" bindtouchstart="startTouchRipple" class="function-item tap-feedback" hover-class="tap-feedback-active" hover-start-time="0" hover-stay-time="180" data-action="exercise" bindtap="openQuick">
+          <view wx:if="{{ripple.id === 'card-2'}}" class="touch-ripple" style="left:{{ripple.x}}px;top:{{ripple.y}}px;" />
+            <image class="function-icon" src="/images/figma/icon-exercise.png" mode="aspectFit" />
+            <text>运动记录</text>
+          </view>
+          <view id="ripple-card-3" data-rippleid="card-3" bindtouchstart="startTouchRipple" class="function-item tap-feedback" hover-class="tap-feedback-active" hover-start-time="0" hover-stay-time="180" data-action="diet" bindtap="openQuick">
+          <view wx:if="{{ripple.id === 'card-3'}}" class="touch-ripple" style="left:{{ripple.x}}px;top:{{ripple.y}}px;" />
+            <image class="function-icon" src="/images/figma/icon-diet.png" mode="aspectFit" />
+            <text>饮食记录</text>
+          </view>
+          <view id="ripple-card-4" data-rippleid="card-4" bindtouchstart="startTouchRipple" class="function-item tap-feedback" hover-class="tap-feedback-active" hover-start-time="0" hover-stay-time="180" data-action="weight" bindtap="openQuick">
+          <view wx:if="{{ripple.id === 'card-4'}}" class="touch-ripple" style="left:{{ripple.x}}px;top:{{ripple.y}}px;" />
+            <image class="function-icon" src="/images/figma/icon-weight.png" mode="aspectFit" />
+            <text>体重记录</text>
+          </view>
+        </view>
+      </view>
+
+      <view class="home-section prompt-section">
+        <view class="home-section-title">可以这样问我哦~</view>
+        <view
+          wx:for="{{questions}}"
+          wx:key="*this"
+          class="prompt-item tap-feedback" id="ripple-prompt-{{index}}" data-rippleid="prompt-{{index}}" bindtouchstart="startTouchRipple"
+          hover-class="tap-feedback-active" hover-start-time="0" hover-stay-time="180"
+          data-question="{{item}}"
+          bindtap="ask"
+        >
+          <view wx:if="{{ripple.id === 'prompt-' + index}}" class="touch-ripple" style="left:{{ripple.x}}px;top:{{ripple.y}}px;" />
+          <text>{{item}}</text>
+          <image class="prompt-arrow" src="/images/figma/prompt-arrow.png" mode="aspectFit" />
+        </view>
+      </view>
+    </view>
+
+    <view wx:else class="conversation">
+      <view
+        wx:for="{{messages}}"
+        wx:key="id"
+        id="{{item.id}}"
+        class="message-row {{item.role}}"
+      >
+        <block wx:if="{{item.role === 'user'}}">
+          <view class="user-bubble">
+            <text selectable>{{item.text}}</text>
+            <image
+              wx:if="{{item.image}}"
+              class="message-image"
+              src="{{item.image}}"
+              mode="aspectFill"
+            />
+          </view>
+        </block>
+
+        <block wx:else>
+          <view class="assistant-card">
+            <view class="message-copy">
+              <block wx:if="{{item.isTyping}}"><text selectable class="reveal-stable">{{item.revealStable}}</text><text class="reveal-focus">{{item.revealFocus}}</text><text class="reveal-haze">{{item.revealHaze}}</text><text class="typing-caret">│</text></block><text wx:else selectable>{{item.displayText !== undefined ? item.displayText : item.text}}</text>
+            </view>
+            <image
+              wx:if="{{item.sticker && !item.isTyping}}"
+              class="sticker"
+              src="{{item.sticker}}"
+              mode="aspectFit"
+            />
+            <view class="ai-credit">
+              {{item.source === 'local' ? '本地演示回复' : (item.source === 'fixed' ? 'AI搭子' : '云端AI生成')}}
+            </view>
+            <view wx:if="{{!item.isTyping}}" class="message-actions">
+              <view
+                class="message-action"
+                data-text="{{item.text}}"
+                bindtap="copyMessage"
+                aria-label="复制回复"
+              >
+                <image class="message-action-image" src="/images/figma/message-copy-v2.png" mode="scaleToFill" />
+              </view>
+              <view class="message-action" bindtap="retryMessage" aria-label="重新回答">
+                <image class="message-action-image" src="/images/figma/message-retry-v2.png" mode="scaleToFill" />
+              </view>
+              <view class="message-action" bindtap="showMessageMore" aria-label="更多操作">
+                <image class="message-action-image" src="/images/figma/message-more-v2.png" mode="scaleToFill" />
+              </view>
+              <view class="message-action speaker-action" bindtap="readMessage" aria-label="朗读回复">
+                <image class="message-action-image" src="/images/figma/message-speaker-v2.png" mode="scaleToFill" />
+              </view>
+            </view>
+          </view>
+        </block>
+      </view>
+
+      <!-- 视频参考：问题在上方，AI 未生成前显示灰色文字骨架，品牌色闪光跟随扫描 -->
+      <view wx:if="{{loading}}" id="loading" class="thinking-block" aria-label="搭搭正在思考">
+        <view class="thinking-shell">
+          <view class="thinking-spark">✦</view>
+          <view class="thinking-placeholder">
+            <view class="thinking-line thinking-line-one"></view>
+            <view class="thinking-line thinking-line-two"></view>
+            <view class="thinking-line thinking-line-three"></view>
+          </view>
+          <view class="thinking-scan"></view>
+        </view>
+        <view class="thinking-status">
+          <view class="thinking-status-dot"></view>
+          <text>搭搭正在组织回复</text>
+          <view class="thinking-ellipsis"><text>·</text><text>·</text><text>·</text></view>
+        </view>
+      </view>
+
+    </view>
+
+    <view class="scroll-spacer"></view>
+  </scroll-view>
+
+  <view class="composer-wrap {{messages.length ? 'with-tabs' : ''}}">
+    <scroll-view wx:if="{{messages.length}}" class="quick-tabs" scroll-x enhanced show-scrollbar="{{false}}">
+      <view class="quick-row">
+        <view id="ripple-card-5" data-rippleid="card-5" bindtouchstart="startTouchRipple" class="quick-chip tap-feedback" hover-class="tap-feedback-active" hover-start-time="0" hover-stay-time="180" data-action="plan" bindtap="openQuick">
+          <view wx:if="{{ripple.id === 'card-5'}}" class="touch-ripple" style="left:{{ripple.x}}px;top:{{ripple.y}}px;" />
+          <image src="/images/figma/icon-plan.png" mode="aspectFit" /><text>训练计划</text>
+        </view>
+        <view id="ripple-card-6" data-rippleid="card-6" bindtouchstart="startTouchRipple" class="quick-chip tap-feedback" hover-class="tap-feedback-active" hover-start-time="0" hover-stay-time="180" data-action="exercise" bindtap="openQuick">
+          <view wx:if="{{ripple.id === 'card-6'}}" class="touch-ripple" style="left:{{ripple.x}}px;top:{{ripple.y}}px;" />
+          <image src="/images/figma/icon-exercise.png" mode="aspectFit" /><text>运动记录</text>
+        </view>
+        <view id="ripple-card-7" data-rippleid="card-7" bindtouchstart="startTouchRipple" class="quick-chip tap-feedback" hover-class="tap-feedback-active" hover-start-time="0" hover-stay-time="180" data-action="diet" bindtap="openQuick">
+          <view wx:if="{{ripple.id === 'card-7'}}" class="touch-ripple" style="left:{{ripple.x}}px;top:{{ripple.y}}px;" />
+          <image src="/images/figma/icon-diet.png" mode="aspectFit" /><text>饮食记录</text>
+        </view>
+        <view id="ripple-card-8" data-rippleid="card-8" bindtouchstart="startTouchRipple" class="quick-chip tap-feedback" hover-class="tap-feedback-active" hover-start-time="0" hover-stay-time="180" data-action="weight" bindtap="openQuick">
+          <view wx:if="{{ripple.id === 'card-8'}}" class="touch-ripple" style="left:{{ripple.x}}px;top:{{ripple.y}}px;" />
+          <image src="/images/figma/icon-weight.png" mode="aspectFit" /><text>体重记录</text>
+        </view>
+      </view>
+    </scroll-view>
+
+    <view class="composer-box">
+      <view class="composer-field">
+        <text wx:if="{{!input}}" class="composer-placeholder-text">询问AI搭子</text>
+        <input
+          class="composer-input"
+          value="{{input}}"
+          maxlength="500"
+          confirm-type="send"
+          bindinput="onInput"
+          bindconfirm="onSend"
+          placeholder=" "
+          placeholder-style="color:transparent;"
+        />
+      </view>
+      <view class="composer-actions">
+        <view class="composer-plus" bindtap="openAttach" aria-label="添加">
+          <image class="composer-action-icon" src="/images/figma/composer-add.png" mode="aspectFit" />
+        </view>
+        <view class="composer-mic" catchtap="showVoice" aria-label="语音输入">
+          <image class="composer-action-icon" src="/images/figma/composer-mic.png" mode="aspectFit" />
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view wx:if="{{recordSheet}}" class="record-mask" catchtap="closeRecord">
+    <view class="record-sheet" catchtap="noop">
+      <view class="record-header">
+        <view class="record-title-wrap">
+          <image class="record-type-icon" src="{{activeRecord.icon}}" mode="aspectFit" />
+          <text class="record-title">{{activeRecord.title}}</text>
+        </view>
+        <view class="record-close" bindtap="closeRecord">×</view>
+      </view>
+
+      <view class="record-photo" bindtap="showPhotoMenu">
+        <image wx:if="{{recordImage}}" class="record-preview" src="{{recordImage}}" mode="aspectFill" />
+        <block wx:else>
+          <image class="record-photo-icon" src="/images/figma/photo-camera.png" mode="aspectFit" />
+          <text>{{activeRecord.photoHint}}</text>
+        </block>
+      </view>
+
+      <view class="record-input-row">
+        <view class="record-line"></view>
+        <view class="record-input-wrap">
+          <input
+            class="record-input"
+            value="{{recordInput}}"
+            focus="{{recordFocus}}"
+            cursor-color="#ff5f58"
+            cursor-spacing="22"
+            bindinput="onRecordInput"
+            bindconfirm="sendRecord"
+            confirm-type="send"
+            placeholder="{{activeRecord.placeholder}}"
+            placeholder-class="record-placeholder"
+            placeholder-style="color:#a39fa4;"
+          />
+        </view>
+        <view class="record-add" bindtap="showPhotoMenu">
+          <image class="record-add-icon" src="/images/figma/composer-add.png" mode="aspectFit" />
+        </view>
+        <view class="record-send" bindtap="sendRecord">↑</view>
+      </view>
+
+      <view wx:if="{{photoMenu}}" class="photo-popover" catchtap="noop">
+        <view class="photo-menu-item" bindtap="chooseFromAlbum">
+          <image class="photo-menu-icon" src="/images/figma/photo-album.png" mode="aspectFit" />
+          <text>相册</text>
+        </view>
+        <view class="photo-menu-item" bindtap="takePhoto">
+          <image class="photo-menu-icon" src="/images/figma/photo-camera.png" mode="aspectFit" />
+          <text>拍照照片</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view wx:if="{{voiceOpen}}" class="voice-mask" catchtap="cancelVoice">
+    <view class="voice-content">
+      <view class="voice-title">AI搭子正在听，请说话</view>
+      <view class="voice-tip">松手发送 上滑取消</view>
+      <view class="voice-dots">
+        <text
+          wx:for="{{voiceDots}}"
+          wx:key="id"
+          class="voice-dot {{item.active ? 'is-active' : ''}} {{item.peak ? 'is-peak' : ''}}"
+        ></text>
+      </view>
+    </view>
+    <view class="voice-button" catchtap="startVoice">
+      <view class="voice-mic"><view class="mic-core"></view></view>
+    </view>
+  </view>
+</view>

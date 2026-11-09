@@ -1,0 +1,239 @@
+<view class="app-page plan-page">
+  <view class="custom-nav {{navElevated ? 'nav-elevated' : ''}}">
+    <view style="padding-top: {{statusBarHeight}}px;">
+      <view class="nav-art-shell" style="height: {{navBarHeight}}px;">
+        <image class="nav-art-image" src="/images/figma/nav.png" mode="scaleToFill" />
+        <button class="nav-hit nav-hit-back" bindtap="goBack" aria-label="返回"></button>
+        <button class="nav-hit nav-hit-add" bindtap="goChat" aria-label="返回聊天"></button>
+        <button class="nav-hit nav-hit-more" bindtap="showPlanMore" aria-label="更多"></button>
+      </view>
+    </view>
+  </view>
+
+  <view
+    class="plan-scroll"
+    style="padding-top: {{navTotalHeight}}px;"
+  >
+    <view id="plan-top" class="plan-content">
+      <view class="plan-user-bubble">生成训练计划</view>
+
+      <view class="plan-sheet">
+        <image class="plan-heading-image" src="/images/figma/plan-title.png" mode="aspectFit" />
+        <view class="plan-subtitle">输入详细信息，帮你生成专属计划</view>
+
+        <view class="form-group">
+          <view class="form-label"><text class="label-bar"></text>性别</view>
+          <view class="gender-grid">
+            <image
+              class="gender-card {{gender === 'male' ? 'gender-selected' : 'gender-muted'}}"
+              src="/images/figma/gender-male.png"
+              mode="scaleToFill"
+              data-value="male"
+              bindtap="selectGender"
+            />
+            <image
+              class="gender-card {{gender === 'female' ? 'gender-selected' : 'gender-muted'}}"
+              src="/images/figma/gender-female.png"
+              mode="scaleToFill"
+              data-value="female"
+              bindtap="selectGender"
+            />
+          </view>
+        </view>
+
+        <view class="form-group">
+          <view class="form-label"><text class="label-bar"></text>年龄</view>
+          <view class="picker-field" bindtap="openAgePicker">
+            <text>{{age}}岁</text>
+            <text class="picker-chevron">⌄</text>
+          </view>
+        </view>
+
+        <view class="form-group">
+          <view class="form-label form-label-row">
+            <view><text class="label-bar"></text>身高</view>
+            <view class="metric-value">{{height}}<text>cm</text></view>
+          </view>
+          <slider
+            min="140"
+            max="210"
+            value="{{height}}"
+            step="1"
+            activeColor="#ffaa97"
+            backgroundColor="#f0eff0"
+            blockColor="#ff9988"
+            blockSize="24"
+            bindchanging="changeHeight"
+            bindchange="changeHeight"
+          />
+        </view>
+
+        <view class="form-group">
+          <view class="form-label form-label-row">
+            <view><text class="label-bar"></text>体重</view>
+            <view class="metric-value">{{weight}}<text>kg</text></view>
+          </view>
+          <slider
+            min="35"
+            max="150"
+            value="{{weight}}"
+            step="1"
+            activeColor="#ffaa97"
+            backgroundColor="#f0eff0"
+            blockColor="#ff9988"
+            blockSize="24"
+            bindchanging="changeWeight"
+            bindchange="changeWeight"
+          />
+        </view>
+
+        <view class="form-group">
+          <view class="form-label"><text class="label-bar"></text>你平时一周大概会运动几天？</view>
+          <view class="choice-row">
+            <view
+              wx:for="{{activities}}"
+              wx:key="value"
+              class="choice-chip {{activity === item.value ? 'choice-selected' : ''}}"
+              data-value="{{item.value}}"
+              bindtap="selectActivity"
+            >{{item.label}}</view>
+          </view>
+        </view>
+
+        <view class="more-trigger" bindtap="toggleMore">
+          <view><text class="label-bar"></text>补充更多信息</view>
+          <text class="more-chevron {{expanded ? 'is-open' : ''}}">
+            {{expanded ? '收起  ⌃' : '展开  ⌄'}}
+          </text>
+        </view>
+
+        <view wx:if="{{expanded}}" class="more-content">
+          <view class="info-question">你目前可以使用哪些训练器材？（多选）</view>
+          <view class="choice-row choice-grid equipment-grid">
+            <view
+              wx:for="{{equipmentOptions}}"
+              wx:key="label"
+              class="choice-chip {{item.selected ? 'choice-selected' : ''}}"
+              data-index="{{index}}"
+              bindtap="toggleEquipment"
+            >{{item.label}}</view>
+          </view>
+          <view class="info-question question-spaced">你目前是否有影响运动的身体伤痛部位？（多选）</view>
+          <view class="choice-row choice-grid four-grid">
+            <view
+              wx:for="{{painOptions}}"
+              wx:key="label"
+              class="choice-chip {{item.selected ? 'choice-selected' : ''}}"
+              data-index="{{index}}"
+              bindtap="togglePain"
+            >{{item.label}}</view>
+          </view>
+          <view class="info-question question-spaced">疾病史（多选）</view>
+          <view class="choice-row choice-grid four-grid">
+            <view
+              wx:for="{{diseaseOptions}}"
+              wx:key="label"
+              class="choice-chip {{item.selected ? 'choice-selected' : ''}}"
+              data-index="{{index}}"
+              bindtap="toggleDisease"
+            >{{item.label}}</view>
+          </view>
+        </view>
+
+        <button class="generate-button {{generating ? 'is-generating' : ''}}" bindtap="generatePlan">
+          {{generating ? '正在生成…' : (planGenerated ? '重新生成我的计划' : '生成我的计划')}}
+        </button>
+      </view>
+
+      <view wx:if="{{expanded}}" class="auto-fill-note">
+        为便于您快速录入，将自动填入填充您在档案中的基础信息。您可以手动修改、调整相关内容，调整后的信息不回影响档案中的记录
+      </view>
+
+      <view wx:if="{{planGenerated && plan}}" id="generated-plan" class="result-sheet">
+        <view class="result-eyebrow">你的专属安排</view>
+        <view class="result-title">{{plan.title}}</view>
+        <view class="result-summary">{{plan.summary}}</view>
+        <view class="result-meta">{{plan.days}} · {{plan.duration}} · {{plan.level}}</view>
+        <view wx:for="{{plan.sessions}}" wx:key="day" class="session-row">
+          <view class="session-day">{{item.day}}</view>
+          <view class="session-copy">
+            <text>{{item.title}}</text>
+            <text>{{item.desc}}</text>
+          </view>
+          <text class="session-duration">{{item.duration}}</text>
+        </view>
+        <view class="result-advice">{{plan.advice}}</view>
+        <button class="checkin-button {{done ? 'checked' : ''}}" bindtap="checkin">
+          {{done ? '今日已打卡 ✓' : '今天先完成一小节'}}
+        </button>
+      </view>
+
+      <view class="scroll-spacer"></view>
+    </view>
+  </view>
+
+  <view class="plan-dock">
+    <scroll-view class="quick-tabs" scroll-x enhanced show-scrollbar="{{false}}">
+      <view class="quick-row">
+        <view class="quick-chip" bindtap="stayOnPlan">
+          <image src="/images/figma/icon-plan.png" mode="aspectFit" /><text>训练计划</text>
+        </view>
+        <view class="quick-chip" data-action="exercise" bindtap="openQuick">
+          <image src="/images/figma/icon-exercise.png" mode="aspectFit" /><text>运动记录</text>
+        </view>
+        <view class="quick-chip" data-action="diet" bindtap="openQuick">
+          <image src="/images/figma/icon-diet.png" mode="aspectFit" /><text>饮食记录</text>
+        </view>
+        <view class="quick-chip" data-action="weight" bindtap="openQuick">
+          <image src="/images/figma/icon-weight.png" mode="aspectFit" /><text>体重记录</text>
+        </view>
+      </view>
+    </scroll-view>
+    <view class="plan-composer">
+      <view class="plan-composer-field">
+        <text wx:if="{{!planInput}}" class="plan-composer-placeholder-text">询问AI搭子</text>
+        <input
+          class="plan-composer-input"
+          value="{{planInput}}"
+          bindinput="onPlanInput"
+          bindconfirm="sendPlanMessage"
+          confirm-type="send"
+          placeholder=" "
+          placeholder-style="color:transparent;"
+        />
+      </view>
+      <view class="plan-composer-actions">
+        <view class="dock-plus" bindtap="goChat">
+          <image class="dock-action-icon" src="/images/figma/composer-add.png" mode="aspectFit" />
+        </view>
+        <view class="dock-mic" catchtap="showPlanVoice" aria-label="语音输入">
+          <image class="dock-action-icon" src="/images/figma/composer-mic.png" mode="aspectFit" />
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view wx:if="{{agePickerOpen}}" class="age-mask" catchtap="closeAgePicker">
+    <view class="age-sheet" catchtap="noopAge">
+      <view class="age-title">你现在的年龄？</view>
+      <view class="age-tip">搭练范围仅支持16周岁-80周岁</view>
+      <view class="age-wheel-wrap">
+        <picker-view
+          class="age-wheel"
+          value="{{agePickerValue}}"
+          indicator-style="height: 84rpx; background: transparent;"
+          mask-style="background: transparent;"
+          bindchange="onAgeWheelChange"
+        >
+          <picker-view-column>
+            <view wx:for="{{ages}}" wx:key="*this" class="age-wheel-item">{{item}}</view>
+          </picker-view-column>
+        </picker-view>
+        <view class="age-wheel-fade top"></view>
+        <view class="age-wheel-fade bottom"></view>
+        <view class="age-unit">岁</view>
+      </view>
+      <button class="age-confirm" bindtap="confirmAge">确定</button>
+    </view>
+  </view>
+</view>
