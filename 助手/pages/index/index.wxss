@@ -1230,3 +1230,33 @@
   100% { opacity: .56; filter: blur(2.3rpx); }
 }
 .typing-caret { color: #ff8080; font-size: 24rpx; opacity: .72; }
+
+/* Homepage entrance: keep original layout and proportions intact. */
+.mascot-stage-before {
+  opacity: 0;
+  clip-path: inset(0 100% 0 0);
+  transform: translate3d(-48rpx, 0, 0);
+}
+.mascot-stage-enter {
+  animation: dalian-mascot-left-reveal 850ms cubic-bezier(.18,.74,.22,1) both;
+}
+@keyframes dalian-mascot-left-reveal {
+  0% {
+    opacity: 0;
+    clip-path: inset(0 100% 0 0);
+    transform: translate3d(-48rpx, 0, 0);
+  }
+  48% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+    clip-path: inset(0 0 0 0);
+    transform: translate3d(0, 0, 0);
+  }
+}
+/* The crisp slogan SVG preserves the original 330rpx x 112rpx placement. */
+.hero-copy .hero-slogan {
+  width: 330rpx;
+  height: 112rpx;
+}
