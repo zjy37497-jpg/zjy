@@ -53,39 +53,38 @@
         <view class="hero-copy">
           <view wx:if="{{heroEntrance}}" class="hero-slogan-animated" aria-label="一起进步，成为更好的自己">
             <view class="hero-glyph glyph-yi" style="left:0.00rpx;top:0.00rpx;width:47.14rpx;height:47.92rpx;animation-delay:0.000s;">
-              <image class="hero-glyph-image" src="/images/figma/hero-slogan-crisp.svg" mode="scaleToFill" style="left:-0.00rpx;top:-0.00rpx;" />
+              <image class="hero-glyph-image" src="/images/figma/hero-flow-{{heroSloganFrame}}.svg" mode="scaleToFill" style="left:-0.00rpx;top:-0.00rpx;" />
             </view>
             <view class="hero-glyph glyph-qi" style="left:47.14rpx;top:0.00rpx;width:47.14rpx;height:47.92rpx;animation-delay:0.095s;">
-              <image class="hero-glyph-image" src="/images/figma/hero-slogan-crisp.svg" mode="scaleToFill" style="left:-47.14rpx;top:-0.00rpx;" />
+              <image class="hero-glyph-image" src="/images/figma/hero-flow-{{heroSloganFrame}}.svg" mode="scaleToFill" style="left:-47.14rpx;top:-0.00rpx;" />
             </view>
             <view class="hero-glyph glyph-jin" style="left:94.29rpx;top:0.00rpx;width:47.70rpx;height:47.92rpx;animation-delay:0.190s;">
-              <image class="hero-glyph-image" src="/images/figma/hero-slogan-crisp.svg" mode="scaleToFill" style="left:-94.29rpx;top:-0.00rpx;" />
+              <image class="hero-glyph-image" src="/images/figma/hero-flow-{{heroSloganFrame}}.svg" mode="scaleToFill" style="left:-94.29rpx;top:-0.00rpx;" />
             </view>
             <view class="hero-glyph glyph-bu" style="left:141.99rpx;top:0.00rpx;width:46.58rpx;height:47.92rpx;animation-delay:0.285s;">
-              <image class="hero-glyph-image" src="/images/figma/hero-slogan-crisp.svg" mode="scaleToFill" style="left:-141.99rpx;top:-0.00rpx;" />
+              <image class="hero-glyph-image" src="/images/figma/hero-flow-{{heroSloganFrame}}.svg" mode="scaleToFill" style="left:-141.99rpx;top:-0.00rpx;" />
             </view>
             <view class="hero-glyph glyph-cheng" style="left:0.00rpx;top:64.64rpx;width:47.70rpx;height:47.36rpx;animation-delay:0.380s;">
-              <image class="hero-glyph-image" src="/images/figma/hero-slogan-crisp.svg" mode="scaleToFill" style="left:-0.00rpx;top:-64.64rpx;" />
+              <image class="hero-glyph-image" src="/images/figma/hero-flow-{{heroSloganFrame}}.svg" mode="scaleToFill" style="left:-0.00rpx;top:-64.64rpx;" />
             </view>
             <view class="hero-glyph glyph-wei" style="left:47.70rpx;top:64.64rpx;width:46.58rpx;height:47.36rpx;animation-delay:0.475s;">
-              <image class="hero-glyph-image" src="/images/figma/hero-slogan-crisp.svg" mode="scaleToFill" style="left:-47.70rpx;top:-64.64rpx;" />
+              <image class="hero-glyph-image" src="/images/figma/hero-flow-{{heroSloganFrame}}.svg" mode="scaleToFill" style="left:-47.70rpx;top:-64.64rpx;" />
             </view>
             <view class="hero-glyph glyph-geng" style="left:94.29rpx;top:64.64rpx;width:47.14rpx;height:47.36rpx;animation-delay:0.570s;">
-              <image class="hero-glyph-image" src="/images/figma/hero-slogan-crisp.svg" mode="scaleToFill" style="left:-94.29rpx;top:-64.64rpx;" />
+              <image class="hero-glyph-image" src="/images/figma/hero-flow-{{heroSloganFrame}}.svg" mode="scaleToFill" style="left:-94.29rpx;top:-64.64rpx;" />
             </view>
             <view class="hero-glyph glyph-hao" style="left:141.43rpx;top:64.64rpx;width:48.83rpx;height:47.36rpx;animation-delay:0.665s;">
-              <image class="hero-glyph-image" src="/images/figma/hero-slogan-crisp.svg" mode="scaleToFill" style="left:-141.43rpx;top:-64.64rpx;" />
+              <image class="hero-glyph-image" src="/images/figma/hero-flow-{{heroSloganFrame}}.svg" mode="scaleToFill" style="left:-141.43rpx;top:-64.64rpx;" />
             </view>
             <view class="hero-glyph glyph-de" style="left:190.26rpx;top:64.64rpx;width:49.39rpx;height:47.36rpx;animation-delay:0.760s;">
-              <image class="hero-glyph-image" src="/images/figma/hero-slogan-crisp.svg" mode="scaleToFill" style="left:-190.26rpx;top:-64.64rpx;" />
+              <image class="hero-glyph-image" src="/images/figma/hero-flow-{{heroSloganFrame}}.svg" mode="scaleToFill" style="left:-190.26rpx;top:-64.64rpx;" />
             </view>
             <view class="hero-glyph glyph-zi" style="left:239.64rpx;top:64.64rpx;width:42.65rpx;height:47.36rpx;animation-delay:0.855s;">
-              <image class="hero-glyph-image" src="/images/figma/hero-slogan-crisp.svg" mode="scaleToFill" style="left:-239.64rpx;top:-64.64rpx;" />
+              <image class="hero-glyph-image" src="/images/figma/hero-flow-{{heroSloganFrame}}.svg" mode="scaleToFill" style="left:-239.64rpx;top:-64.64rpx;" />
             </view>
             <view class="hero-glyph glyph-ji" style="left:282.30rpx;top:64.64rpx;width:47.70rpx;height:47.36rpx;animation-delay:0.950s;">
-              <image class="hero-glyph-image" src="/images/figma/hero-slogan-crisp.svg" mode="scaleToFill" style="left:-282.30rpx;top:-64.64rpx;" />
+              <image class="hero-glyph-image" src="/images/figma/hero-flow-{{heroSloganFrame}}.svg" mode="scaleToFill" style="left:-282.30rpx;top:-64.64rpx;" />
             </view>
-            <view class="hero-slogan-glow" aria-hidden="true"></view>
           </view>
         </view>
       </view>

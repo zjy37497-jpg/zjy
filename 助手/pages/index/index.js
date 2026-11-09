@@ -57,6 +57,7 @@ Page({
   data: Object.assign({}, ui.getNavMetrics(), {
     ripple: { id: '', x: 0, y: 0 },
     heroEntrance: false,
+    heroSloganFrame: 0,
     input: '',
     messages: [],
     anchor: '',
@@ -126,9 +127,34 @@ Page({
     this._heroEntranceTimer = setTimeout(() => {
       this.setData({ heroEntrance: true });
     }, 40);
+    this.startSloganFrames();
+  },
+
+  startSloganFrames() {
+    this.stopSloganFrames();
+    this._sloganTick = 0;
+    this.setData({ heroSloganFrame: 0 });
+    this._sloganInterval = setInterval(() => {
+      if (this.data.messages.length) return;
+      this._sloganTick = (this._sloganTick + 1) % 29;
+      const frame = this._sloganTick <= 18 ? this._sloganTick : 0;
+      if (frame !== this.data.heroSloganFrame) this.setData({ heroSloganFrame: frame });
+    }, 110);
+  },
+
+  stopSloganFrames() {
+    if (this._sloganInterval) {
+      clearInterval(this._sloganInterval);
+      this._sloganInterval = null;
+    }
+  },
+
+  onHide() {
+    this.stopSloganFrames();
   },
 
   onUnload() {
+    this.stopSloganFrames();
     if (this._heroEntranceTimer) clearTimeout(this._heroEntranceTimer);
     this.stopThinkingTimer();
     this.finishTyping();
