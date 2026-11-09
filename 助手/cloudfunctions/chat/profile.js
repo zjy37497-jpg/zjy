@@ -1,5 +1,5 @@
 const crypto = require('crypto');
-const CATEGORIES = ['goals', 'preferences', 'schedule', 'equipment', 'health_constraints', 'communication'];
+const CATEGORIES = ['basic', 'goals', 'preferences', 'schedule', 'equipment', 'health_constraints', 'communication'];
 const STATUSES = ['active', 'needs_confirmation', 'resolved_by_user'];
 const COLLECTION = 'dada_profiles';
 function fail(code) { throw new Error(code); }
