@@ -1290,31 +1290,62 @@
   58% {opacity:1; transform:translate3d(0,0,0) scale(1.02);filter:blur(.3px);}
   100% {opacity:1; transform:translate3d(0,0,0) scale(1);filter:blur(0);}
 }
-/* Moving yellow light runs across the letter shapes, not across the card. */
-.hero-slogan-glow {
+
+/* Keep every letter as an unchanged static SVG: no per-frame image replacements. */
+.hero-glyph-image {
+  backface-visibility: hidden;
+}
+.hero-slogan-animated {
+  isolation: isolate;
+}
+/* Gentle yellow light only on glyph-shaped overlay text; moves continuously
+   via one CSS animation, rather than 19 changing file URLs. */
+.slogan-light-overlay {
   position: absolute;
-  inset: 0;
+  top: 0;
+  left: 0;
   width: 330rpx;
   height: 112rpx;
   pointer-events: none;
-  opacity: 0;
-  background: linear-gradient(100deg,
-    transparent 0%, transparent 32%, rgba(255,232,113,.08) 43%,
-    rgba(255,242,137,.92) 50%, rgba(255,232,113,.08) 57%,
-    transparent 68%, transparent 100%);
-  background-size: 280% 100%;
-  background-position: 100% 0;
-  -webkit-mask-image: url('/images/figma/hero-slogan-crisp.svg');
-  mask-image: url('/images/figma/hero-slogan-crisp.svg');
-  -webkit-mask-size: 330rpx 112rpx;
-  mask-size: 330rpx 112rpx;
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  animation: dalian-yellow-letter-flow 3.4s linear 1.1s infinite;
+  z-index: 4;
 }
-@keyframes dalian-yellow-letter-flow {
-  0% {opacity:0;background-position:100% 0;}
-  6% {opacity:.98;}
-  78% {opacity:.98;}
-  84%,100% {opacity:0;background-position:0% 0;}
+.slogan-light-line {
+  position: absolute;
+  left: 0;
+  display: block;
+  white-space: nowrap;
+  font-weight: 900;
+  letter-spacing: -2rpx;
+  line-height: 1.0;
+  font-size: 46rpx;
+  color: transparent;
+  background-image: linear-gradient(105deg,
+    rgba(255,234,127,0) 0%,
+    rgba(255,234,127,0) 36%,
+    rgba(255,234,127,.12) 43%,
+    rgba(255,244,155,.8) 50%,
+    rgba(255,234,127,.12) 57%,
+    rgba(255,234,127,0) 64%,
+    rgba(255,234,127,0) 100%);
+  background-size: 320% 100%;
+  background-repeat: no-repeat;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: smooth-slogan-highlight 3.6s linear 1.2s infinite;
+}
+.slogan-light-line-1 { top: 0; }
+.slogan-light-line-2 { top: 64.5rpx; font-size: 45rpx; letter-spacing: -2.3rpx; }
+@keyframes smooth-slogan-highlight {
+  0%,8% {background-position: 100% 0;}
+  84%,100% {background-position: 0% 0;}
+}
+/* Every homepage visit blinks exactly once, then normal 6.4s eye loop resumes. */
+.mascot-eyes-layer.mascot-intro-blink {
+  animation: mascot-welcome-blink 980ms ease-in-out both;
+}
+@keyframes mascot-welcome-blink {
+  0%,23% {transform: scaleY(1);}
+  36% {transform: scaleY(.09);}
+  49%,100% {transform: scaleY(1);}
 }
