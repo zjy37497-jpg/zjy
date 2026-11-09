@@ -51,7 +51,7 @@
           <view class="mascot-dot mascot-dot-b"></view>
         </view>
         <view class="hero-copy">
-          <view class="hero-slogan-animated" aria-label="一起进步，成为更好的自己">
+          <view wx:if="{{heroEntrance}}" class="hero-slogan-animated" aria-label="一起进步，成为更好的自己">
             <view class="hero-glyph glyph-yi" style="left:0.00rpx;top:0.00rpx;width:47.14rpx;height:47.92rpx;animation-delay:0.000s;">
               <image class="hero-glyph-image" src="/images/figma/hero-slogan-crisp.svg" mode="scaleToFill" style="left:-0.00rpx;top:-0.00rpx;" />
             </view>
