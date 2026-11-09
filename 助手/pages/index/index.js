@@ -57,7 +57,7 @@ Page({
   data: Object.assign({}, ui.getNavMetrics(), {
     ripple: { id: '', x: 0, y: 0 },
     heroEntrance: false,
-    heroSloganFrame: 0,
+    mascotIntroBlink: false,
     input: '',
     messages: [],
     anchor: '',
@@ -120,42 +120,29 @@ Page({
     }
   },
 
-  // Replays individual slogan characters when entering or returning home.
+  // Replay on entering home, without image-src frame switching (which flickers on phones).
   onShow() {
     if (this._heroEntranceTimer) clearTimeout(this._heroEntranceTimer);
-    this.setData({ heroEntrance: false });
-    this._heroEntranceTimer = setTimeout(() => {
-      this.setData({ heroEntrance: true });
-    }, 40);
-    this.startSloganFrames();
-  },
-
-  startSloganFrames() {
-    this.stopSloganFrames();
-    this._sloganTick = 0;
-    this.setData({ heroSloganFrame: 0 });
-    this._sloganInterval = setInterval(() => {
-      if (this.data.messages.length) return;
-      this._sloganTick = (this._sloganTick + 1) % 29;
-      const frame = this._sloganTick <= 18 ? this._sloganTick : 0;
-      if (frame !== this.data.heroSloganFrame) this.setData({ heroSloganFrame: frame });
-    }, 110);
-  },
-
-  stopSloganFrames() {
-    if (this._sloganInterval) {
-      clearInterval(this._sloganInterval);
-      this._sloganInterval = null;
-    }
+    if (this._mascotIntroTimer) clearTimeout(this._mascotIntroTimer);
+    this.setData({ heroEntrance: false, mascotIntroBlink: false }, () => {
+      this._heroEntranceTimer = setTimeout(() => {
+        this.setData({ heroEntrance: true, mascotIntroBlink: true });
+      }, 40);
+      // Exactly one greeting blink, then return to the existing looping eye animation.
+      this._mascotIntroTimer = setTimeout(() => {
+        this.setData({ mascotIntroBlink: false });
+      }, 1100);
+    });
   },
 
   onHide() {
-    this.stopSloganFrames();
+    if (this._heroEntranceTimer) clearTimeout(this._heroEntranceTimer);
+    if (this._mascotIntroTimer) clearTimeout(this._mascotIntroTimer);
   },
 
   onUnload() {
-    this.stopSloganFrames();
     if (this._heroEntranceTimer) clearTimeout(this._heroEntranceTimer);
+    if (this._mascotIntroTimer) clearTimeout(this._mascotIntroTimer);
     this.stopThinkingTimer();
     this.finishTyping();
     if (this._rippleTimer) clearTimeout(this._rippleTimer);
