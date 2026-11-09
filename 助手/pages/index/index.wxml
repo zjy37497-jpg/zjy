@@ -38,7 +38,7 @@
   >
     <view wx:if="{{!messages.length}}">
       <view class="home-hero">
-        <view class="mascot-stage">
+        <view class="mascot-stage {{heroEntrance ? 'mascot-stage-enter' : 'mascot-stage-before'}}">
           <image class="mascot-body" src="/images/figma/mascot-body.png" mode="scaleToFill" />
           <image class="mascot-star-layer" src="/images/figma/mascot-star-full.png" mode="scaleToFill" />
           <view class="mascot-eyes-layer">
@@ -51,7 +51,7 @@
           <view class="mascot-dot mascot-dot-b"></view>
         </view>
         <view class="hero-copy">
-          <image class="hero-slogan" src="/images/figma/hero-slogan.png" mode="aspectFit" />
+          <image class="hero-slogan" src="/images/figma/hero-slogan-crisp.svg" mode="aspectFit" />
         </view>
       </view>
 
