@@ -119,7 +119,7 @@ Page({
     }
   },
 
-  // Replays the homepage reveal on first entry and every return to this page.
+  // Replays individual slogan characters when entering or returning home.
   onShow() {
     if (this._heroEntranceTimer) clearTimeout(this._heroEntranceTimer);
     this.setData({ heroEntrance: false });
