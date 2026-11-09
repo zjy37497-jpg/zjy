@@ -1,5 +1,5 @@
 const profile = require('../../utils/profile');
-const categoryNames = { goals: '目标', preferences: '运动饮食偏好', schedule: '时间安排', equipment: '器械条件', health_constraints: '健康情况（本人自述）', communication: '表达偏好' };
+const categoryNames = { basic: '本人基础信息', goals: '目标', preferences: '运动饮食偏好', schedule: '时间安排', equipment: '器械条件', health_constraints: '健康情况（本人自述）', communication: '表达偏好' };
 const statusNames = { active: '本人自述', needs_confirmation: '仍需确认', resolved_by_user: '本人自述已恢复' };
 Page({
   data: { loading: false, ready: false, enabled: false, records: [], error: '' },
