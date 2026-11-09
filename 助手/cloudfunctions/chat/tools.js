@@ -2,7 +2,7 @@ const { CATEGORIES } = require('./profile');
 const tool = (name, description, properties, required) => ({ type: 'function', function: { name, description, parameters: { type: 'object', properties, required, additionalProperties: false } } });
 const profileTools = [
   tool('get_user_profile', '只读已授权的当前用户档案，不创建或修改任何数据；停用时不返回记录。普通闲聊不调用。', {}, []),
-  tool('update_user_profile', '仅提出一条需要用户在小程序弹窗确认的档案变更，不直接写入。只记录当前用户本人的稳定事实或健康限制；不记录闲聊、他人或假设。开启记忆、清空、停用请引导个人档案页面。', {
+  tool('update_user_profile', '当用户明确表达本人长期目标、偏好、时间、器械或沟通要求，或主动更正这些事实时，提出一条档案更新；普通资料由服务端自动保存，健康资料仍需弹窗确认。先读取档案确认是否已有同类记录并使用其ID更正，避免重复。不要记录闲聊、短期状态、他人、假设或推断。开启记忆、清空、停用请引导个人档案页面。', {
     operation: { type: 'string', enum: ['upsert', 'delete'] },
     record_id: { type: ['string', 'null'], description: '新记录用 null；更正或删除用读取到的 id' },
     category: { type: 'string', enum: CATEGORIES },
