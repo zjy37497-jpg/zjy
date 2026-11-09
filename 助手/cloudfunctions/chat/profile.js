@@ -7,7 +7,7 @@ function ownerId(openid, appid) {
   if (!openid || !appid) fail('unauthenticated');
   return crypto.createHash('sha256').update(appid + ':' + openid).digest('hex');
 }
-function emptyProfile() { return { version: 0, enabled: false, records: [], lastOperation: '' }; }
+function emptyProfile() { return { version: 0, enabled: true, records: [], lastOperation: '' }; }
 function validateMutation(input) {
   if (!input || typeof input !== 'object' || Array.isArray(input)) fail('validation_error');
   const operation = input.operation;
