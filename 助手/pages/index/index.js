@@ -56,6 +56,7 @@ function explain(code) {
 Page({
   data: Object.assign({}, ui.getNavMetrics(), {
     ripple: { id: '', x: 0, y: 0 },
+    heroEntrance: false,
     input: '',
     messages: [],
     anchor: '',
@@ -118,7 +119,17 @@ Page({
     }
   },
 
+  // Replays the homepage reveal on first entry and every return to this page.
+  onShow() {
+    if (this._heroEntranceTimer) clearTimeout(this._heroEntranceTimer);
+    this.setData({ heroEntrance: false });
+    this._heroEntranceTimer = setTimeout(() => {
+      this.setData({ heroEntrance: true });
+    }, 40);
+  },
+
   onUnload() {
+    if (this._heroEntranceTimer) clearTimeout(this._heroEntranceTimer);
     this.stopThinkingTimer();
     this.finishTyping();
     if (this._rippleTimer) clearTimeout(this._rippleTimer);
