@@ -140,7 +140,8 @@
       <!-- Result arrives after completion, like the supplied reference clip. -->
       <view wx:if="{{planGenerated}}" id="generated-plan" class="plan-reveal">
         <view class="plan-result-card">
-          <image wx:if="{{!planCardImageFailed}}" class="plan-result-card-art" src="/images/figma/plan-customized-card.webp" mode="widthFix" binderror="onPlanCardImageError" />
+          <image wx:if="{{!planCardImageFailed}}" class="plan-result-card-art" src="/images/figma/plan-customized-card.webp" mode="widthFix" bindload="onPlanCardImageLoad" binderror="onPlanCardImageError" />
+          <image wx:if="{{!planCardImageFailed}}" class="plan-person-overlay" src="/images/figma/plan-person.png" mode="aspectFit" />
           <view wx:if="{{planCardImageFailed}}" class="plan-result-fallback">
             <view class="plan-fallback-heading">定制专属训练计划</view>
             <view class="plan-fallback-hero">
@@ -180,16 +181,16 @@
     <scroll-view class="quick-tabs" scroll-x="{{true}}" enhanced="{{true}}" show-scrollbar="{{false}}" aria-label="左右滑动快捷功能">
       <view class="quick-row">
         <view class="quick-chip quick-training" bindtap="stayOnPlan" aria-label="训练计划">
-          <image class="quick-chip-art" src="/images/figma/quick-training-new.webp" mode="aspectFit" />
+          <image class="quick-chip-art" src="/images/figma/quick-training.png" mode="aspectFit" />
         </view>
         <view class="quick-chip quick-exercise" data-action="exercise" bindtap="openQuick" aria-label="运动记录">
-          <image class="quick-chip-art" src="/images/figma/quick-exercise-new.webp" mode="aspectFit" />
+          <image class="quick-chip-art" src="/images/figma/quick-exercise.png" mode="aspectFit" />
         </view>
         <view class="quick-chip quick-diet" data-action="diet" bindtap="openQuick" aria-label="饮食记录">
-          <image class="quick-chip-art" src="/images/figma/quick-diet-new.webp" mode="aspectFit" />
+          <image class="quick-chip-art" src="/images/figma/quick-diet.png" mode="aspectFit" />
         </view>
         <view class="quick-chip quick-weight" data-action="weight" bindtap="openQuick" aria-label="体重记录">
-          <image class="quick-chip-art" src="/images/figma/quick-weight-new.webp" mode="aspectFit" />
+          <image class="quick-chip-art" src="/images/figma/quick-weight.png" mode="aspectFit" />
         </view>
       </view>
     </scroll-view>

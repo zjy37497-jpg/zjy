@@ -84,6 +84,7 @@ Page({
   },
 
   onUnload() {
+    if (this._planScrollTimer) clearTimeout(this._planScrollTimer);
     if (this._genderGlintTimer) clearTimeout(this._genderGlintTimer);
     if (this.timer) clearTimeout(this.timer);
   },
@@ -436,28 +437,47 @@ Page({
         plan,
         anchor: 'generated-plan'
       }, () => {
-        // Measure the rendered card and scroll to its real document position.
-        wx.createSelectorQuery().in(this)
-          .selectViewport().scrollOffset()
-          .select('#generated-plan').boundingClientRect()
-          .exec(res => {
-            const viewport = res && res[0];
-            const cardRect = res && res[1];
-            if (viewport && cardRect) {
-              wx.pageScrollTo({
-                scrollTop: Math.max(0, viewport.scrollTop + cardRect.top - (this.data.navTotalHeight || 0) - 24),
-                duration: 520,
-                fail: () => {}
-              });
-            }
-          });
+        // The image is widthFix and has no final height until decoded.
+        // The image load handler positions the finished card above the dock.
+        if (this._planScrollTimer) clearTimeout(this._planScrollTimer);
+        this._planScrollTimer = setTimeout(() => this.scrollGeneratedPlanToDock(), 320);
         wx.showToast({ title: '专属计划已生成', icon: 'success', duration: 1200 });
       });
     }, 720);
   },
 
+  onPlanCardImageLoad() {
+    if (this.data.planGenerated) {
+      if (this._planScrollTimer) clearTimeout(this._planScrollTimer);
+      this._planScrollTimer = setTimeout(() => this.scrollGeneratedPlanToDock(), 80);
+    }
+  },
+
+  scrollGeneratedPlanToDock() {
+    if (!this.data.planGenerated) return;
+    wx.createSelectorQuery().in(this)
+      .selectViewport().scrollOffset()
+      .select('#generated-plan').boundingClientRect()
+      .select('.plan-dock').boundingClientRect()
+      .exec(res => {
+        const viewport = res && res[0], card = res && res[1], dock = res && res[2];
+        if (!viewport || !card || !dock) return;
+        // Leave 24 physical px between the plan card and the fixed composer dock.
+        const delta = card.bottom - dock.top + 24;
+        if (Math.abs(delta) > 2) {
+          wx.pageScrollTo({
+            scrollTop: Math.max(0, viewport.scrollTop + delta),
+            duration: 520,
+            fail: () => {}
+          });
+        }
+      });
+  },
+
   onPlanCardImageError() {
-    this.setData({ planCardImageFailed: true });
+    this.setData({ planCardImageFailed: true }, () => {
+      this._planScrollTimer = setTimeout(() => this.scrollGeneratedPlanToDock(), 100);
+    });
   },
 
   togglePlanDetails() {
