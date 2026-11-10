@@ -216,19 +216,19 @@
       <view class="quick-row">
         <view id="ripple-card-5" data-rippleid="card-5" bindtouchstart="startTouchRipple" class="quick-chip quick-training tap-feedback" hover-class="quick-chip-pressed" hover-start-time="0" hover-stay-time="180" data-action="plan" bindtap="openQuick" aria-label="训练计划">
           <view wx:if="{{ripple.id === 'card-5'}}" class="touch-ripple" style="left:{{ripple.x}}px;top:{{ripple.y}}px;" />
-          <image class="quick-chip-art" src="/images/figma/quick-training.png" mode="aspectFit" />
+          <image class="quick-chip-art" src="/images/figma/quick-training-new.webp" mode="aspectFit" />
         </view>
         <view id="ripple-card-6" data-rippleid="card-6" bindtouchstart="startTouchRipple" class="quick-chip quick-exercise tap-feedback" hover-class="quick-chip-pressed" hover-start-time="0" hover-stay-time="180" data-action="exercise" bindtap="openQuick" aria-label="运动记录">
           <view wx:if="{{ripple.id === 'card-6'}}" class="touch-ripple" style="left:{{ripple.x}}px;top:{{ripple.y}}px;" />
-          <image class="quick-chip-art" src="/images/figma/quick-exercise.png" mode="aspectFit" />
+          <image class="quick-chip-art" src="/images/figma/quick-exercise-new.webp" mode="aspectFit" />
         </view>
         <view id="ripple-card-7" data-rippleid="card-7" bindtouchstart="startTouchRipple" class="quick-chip quick-diet tap-feedback" hover-class="quick-chip-pressed" hover-start-time="0" hover-stay-time="180" data-action="diet" bindtap="openQuick" aria-label="饮食记录">
           <view wx:if="{{ripple.id === 'card-7'}}" class="touch-ripple" style="left:{{ripple.x}}px;top:{{ripple.y}}px;" />
-          <image class="quick-chip-art" src="/images/figma/quick-diet.png" mode="aspectFit" />
+          <image class="quick-chip-art" src="/images/figma/quick-diet-new.webp" mode="aspectFit" />
         </view>
         <view id="ripple-card-8" data-rippleid="card-8" bindtouchstart="startTouchRipple" class="quick-chip quick-weight tap-feedback" hover-class="quick-chip-pressed" hover-start-time="0" hover-stay-time="180" data-action="weight" bindtap="openQuick" aria-label="体重记录">
           <view wx:if="{{ripple.id === 'card-8'}}" class="touch-ripple" style="left:{{ripple.x}}px;top:{{ripple.y}}px;" />
-          <image class="quick-chip-art" src="/images/figma/quick-weight.png" mode="aspectFit" />
+          <image class="quick-chip-art" src="/images/figma/quick-weight-new.webp" mode="aspectFit" />
         </view>
       </view>
     </scroll-view>
