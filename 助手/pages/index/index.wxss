@@ -1059,102 +1059,42 @@
   margin-right: 20rpx;
 }
 
+
+.composer-mic-icon { width: 44rpx; height: 44rpx; opacity: .96; }
 .voice-mask {
   position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
+  top: 0; right: 0; bottom: 0; left: 0;
   z-index: 120;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
+  display: flex; align-items: center; flex-direction: column;
   justify-content: flex-end;
-  padding-bottom: calc(60rpx + env(safe-area-inset-bottom));
-  background: linear-gradient(160deg, rgba(255, 250, 244, 0.82), rgba(255, 226, 226, 0.84));
-  backdrop-filter: blur(42rpx);
+  padding-bottom: calc(28rpx + env(safe-area-inset-bottom));
+  background: linear-gradient(160deg,#f9f6f3 8%,#f7f2ed 35%,#f6ecef 72%,#f5ebf0 100%);
 }
-
-.voice-content {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  margin-bottom: 212rpx;
-}
-
-.voice-title {
-  color: #2d2324;
-  font-size: 33rpx;
-  font-weight: 650;
-}
-
-.voice-tip {
-  margin-top: 18rpx;
-  color: #8d8587;
-  font-size: 22rpx;
-}
-
-.voice-dots {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 38rpx;
-  margin-top: 88rpx;
-  gap: 12rpx;
-}
-
-.voice-dot {
-  display: block;
-  width: 5rpx;
-  height: 5rpx;
-  border-radius: 50%;
-  background: #ffaca5;
-}
-
-.voice-dot.is-active {
-  width: 7rpx;
-  height: 7rpx;
-  background: #ff786d;
-}
-
-.voice-dot.is-peak {
-  width: 8rpx;
-  height: 22rpx;
-  border-radius: 5rpx;
-  background: #ff5a52;
-}
-
-.voice-button {
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  width: 750rpx;
-  height: 220rpx;
-  padding-top: 108rpx;
-  border-radius: 370rpx 370rpx 0 0;
-  background: linear-gradient(180deg, rgba(255, 220, 222, 0.72), rgba(255, 243, 240, 0.2));
-}
-
-.voice-mic {
-  position: relative;
-  width: 30rpx;
-  height: 40rpx;
-  border-radius: 16rpx;
-  background: #ff4d4f;
-  color: #ff4d4f;
-}
-
-.voice-mic::after {
+.voice-mask::before {
   position: absolute;
-  bottom: -14rpx;
-  left: 50%;
-  width: 32rpx;
-  height: 16rpx;
-  border-bottom: 4rpx solid #ff4d4f;
-  border-radius: 0 0 18rpx 18rpx;
+  right: 68rpx; bottom: 468rpx;
+  width: 188rpx; height: 188rpx;
+  border-radius: 50%;
+  background: radial-gradient(circle,rgba(216,214,244,.32) 0%,rgba(216,214,244,0) 72%);
   content: "";
-  transform: translateX(-50%);
+  filter: blur(8rpx);
 }
+.voice-content { position: relative; z-index: 2; display: flex; align-items: center; flex-direction: column; margin-bottom: 188rpx; }
+.voice-title { color: #2d2324; font-size: 44rpx; font-weight: 700; line-height: 1.28; }
+.voice-tip { display: flex; align-items: center; margin-top: 24rpx; color: #8a8489; font-size: 22rpx; line-height: 1.2; }
+.voice-tip-gap { margin-left: 18rpx; }
+.voice-dots { display: flex; align-items: center; justify-content: center; height: 34rpx; margin-top: 94rpx; gap: 14rpx; }
+.voice-dot { display: block; width: 8rpx; height: 8rpx; border-radius: 50%; background: rgba(255,128,128,.24); }
+.voice-dot.is-active { width: 10rpx; height: 10rpx; background: rgba(255,128,128,.58); }
+.voice-dot.is-peak { width: 12rpx; height: 24rpx; border-radius: 8rpx; background: #ff5252; }
+.voice-button {
+  position: relative; z-index: 2;
+  display: flex; align-items: flex-start; justify-content: center;
+  width: 100%; height: 242rpx; padding-top: 88rpx;
+  border-radius: 380rpx 380rpx 0 0;
+  background: linear-gradient(180deg,rgba(247,225,228,.7),rgba(247,225,228,.22));
+}
+.voice-button-icon { display: block; width: 54rpx; height: 76rpx; }
 
 /* 搭练主题色点击反馈：珊瑚粉高亮 + 柔光扩散 + 轻微按压。
    仅改变触摸反馈，不改变原有卡片点击业务逻辑。 */
