@@ -393,7 +393,7 @@ Page({
         } else if (res.tapIndex === 2) {
           this.clear();
         } else if (res.tapIndex === 3) {
-          wx.navigateTo({ url: '/pages/profile/profile' });
+          wx.navigateTo({ url: '/pages/profile/profile?manage=1' });
         }
       }
     });
