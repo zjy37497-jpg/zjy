@@ -171,8 +171,12 @@ Page({
     });
   },
 
+  // Crossfade card color without changing its geometry.
   selectGender(e) {
-    this.setData({ gender: e.currentTarget.dataset.value });
+    const next = e.currentTarget.dataset.value;
+    if (next === this.data.gender) return;
+    this.setData({ gender: next });
+    this.tickHaptic('selection', true);
   },
 
   changeAge(e) {
@@ -196,6 +200,8 @@ Page({
 
   onAgeWheelChange(e) {
     const ageIndex = Number(e.detail.value[0]);
+    if (!Number.isInteger(ageIndex) || ageIndex < 0 || ageIndex >= AGES.length) return;
+    if (ageIndex !== this.data.ageIndex) this.tickHaptic('age');
     this.setData({
       ageIndex,
       ageDraft: Number(AGES[ageIndex])
@@ -209,12 +215,27 @@ Page({
     });
   },
 
+  // Short tactile ticks on real devices; throttled so fast drags remain gentle.
+  tickHaptic(channel, immediate) {
+    if (typeof wx === 'undefined' || typeof wx.vibrateShort !== 'function') return;
+    const now = Date.now();
+    if (!immediate && now - (this._lastHapticAt || 0) < 85) return;
+    this._lastHapticAt = now;
+    try { wx.vibrateShort({ type: 'light', fail: () => {} }); } catch (_) {}
+  },
+
   changeHeight(e) {
-    this.setData({ height: e.detail.value });
+    const next = Number(e.detail.value);
+    if (!Number.isFinite(next) || next === this.data.height) return;
+    this.tickHaptic('height');
+    this.setData({ height: next });
   },
 
   changeWeight(e) {
-    this.setData({ weight: e.detail.value });
+    const next = Number(e.detail.value);
+    if (!Number.isFinite(next) || next === this.data.weight) return;
+    this.tickHaptic('weight');
+    this.setData({ weight: next });
   },
 
   selectActivity(e) {
