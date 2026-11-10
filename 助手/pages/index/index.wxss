@@ -1041,7 +1041,7 @@
   backdrop-filter: blur(35rpx);
   box-shadow: 0 22rpx 64rpx rgba(49,39,41,.15), inset 0 1rpx 0 rgba(255,255,255,.95);
   transform-origin: 50% 100%;
-  animation: photo-menu-float-in 230ms cubic-bezier(.17,.82,.24,1) both;
+  animation: photo-menu-float-in 210ms cubic-bezier(.22,1,.36,1) both;
 }
 .photo-popover::before {
   position: absolute;
@@ -1072,11 +1072,9 @@
   margin-right: 28rpx;
 }
 @keyframes photo-menu-float-in {
-  0% {opacity:0; transform:translate3d(0,16rpx,0) scale(.96);}
-  70% {opacity:1; transform:translate3d(0,-2rpx,0) scale(1.008);}
-  100% {opacity:1; transform:translate3d(0,0,0) scale(1);}
+  0% { opacity: 0; transform: translate3d(0,10rpx,0) scale(.985); }
+  100% { opacity: 1; transform: translate3d(0,0,0) scale(1); }
 }
-
 
 .composer-mic-icon { width: 44rpx; height: 44rpx; opacity: .96; }
 
