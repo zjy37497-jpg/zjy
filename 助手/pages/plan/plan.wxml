@@ -129,7 +129,8 @@
         </view>
 
         <button class="generate-button {{generating ? 'is-generating' : ''}}" bindtap="generatePlan" disabled="{{generating}}" aria-label="生成我的计划">
-          <text>{{generating ? '正在生成…' : '生成我的计划'}}</text>
+          <image wx:if="{{!generating}}" class="generate-button-art" src="/images/figma/plan-generate-button.webp" mode="scaleToFill" />
+          <text wx:else>正在生成…</text>
         </button>
       </view>
 
@@ -139,9 +140,9 @@
 
       <!-- Result arrives after completion, like the supplied reference clip. -->
       <view wx:if="{{planGenerated && plan}}" id="generated-plan" class="plan-reveal">
-        <view class="plan-result-card" bindtap="togglePlanDetails" aria-label="查看我的训练计划">
+        <view class="plan-result-card">
           <image class="plan-result-card-art" src="/images/figma/plan-customized-card.webp" mode="widthFix" />
-          <view class="plan-result-hit-area"></view>
+          <view class="plan-result-hit-area" bindtap="togglePlanDetails" aria-label="我的训练计划"></view>
         </view>
         <view wx:if="{{planDetailsOpen}}" id="plan-details" class="result-sheet plan-details-reveal">
           <view class="result-eyebrow">你的专属安排</view>

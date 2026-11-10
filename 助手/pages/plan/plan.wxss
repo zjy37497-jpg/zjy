@@ -319,14 +319,21 @@
   width: 100%;
   height: 96rpx;
   margin: 40rpx auto 0;
-  padding: 0 16rpx;
+  padding: 0;
   border: none;
   border-radius: 52rpx;
+  overflow: hidden;
   background: linear-gradient(105deg, #ffa373 0%, #ff7d62 49%, #ff4d43 100%);
   color: #fff;
   font-size: 30rpx;
   font-weight: 600;
   line-height: 1;
+}
+.generate-button-art {
+  display: block;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
 }
 .generate-button::after { border: none; }
 .generate-button:active { opacity: .9; }
@@ -706,7 +713,7 @@
   right: 5%;
   bottom: 4%;
   height: 21%;
-  pointer-events: none;
+  pointer-events: auto;
 }
 .plan-details-reveal {
   margin-top: 22rpx;

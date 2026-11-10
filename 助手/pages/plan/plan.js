@@ -410,7 +410,7 @@ Page({
 
   generatePlan() {
     if (this.data.generating) return;
-    this.setData({ generating: true, planDetailsOpen: false });
+    this.setData({ generating: true, planGenerated: false, planDetailsOpen: false });
     this.timer = setTimeout(() => {
       const plan = this.buildPlan();
       const profile = {
