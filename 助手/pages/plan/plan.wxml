@@ -24,20 +24,14 @@
         <view class="form-group">
           <view class="form-label"><text class="label-bar"></text>性别</view>
           <view class="gender-grid">
-            <image
-              class="gender-card {{gender === 'male' ? 'gender-selected' : 'gender-muted'}}"
-              src="/images/figma/gender-male.png"
-              mode="scaleToFill"
-              data-value="male"
-              bindtap="selectGender"
-            />
-            <image
-              class="gender-card {{gender === 'female' ? 'gender-selected' : 'gender-muted'}}"
-              src="/images/figma/gender-female.png"
-              mode="scaleToFill"
-              data-value="female"
-              bindtap="selectGender"
-            />
+            <view class="gender-card {{gender === 'male' ? 'gender-selected' : ''}}" data-value="male" bindtap="selectGender" aria-label="男">
+              <image class="gender-image gender-image-muted" src="/images/figma/gender-male.png" mode="scaleToFill" />
+              <image class="gender-image gender-image-color {{gender === 'male' ? 'is-visible' : ''}}" src="/images/figma/gender-male.png" mode="scaleToFill" />
+            </view>
+            <view class="gender-card {{gender === 'female' ? 'gender-selected' : ''}}" data-value="female" bindtap="selectGender" aria-label="女">
+              <image class="gender-image gender-image-muted" src="/images/figma/gender-female.png" mode="scaleToFill" />
+              <image class="gender-image gender-image-color {{gender === 'female' ? 'is-visible' : ''}}" src="/images/figma/gender-female.png" mode="scaleToFill" />
+            </view>
           </view>
         </view>
 
