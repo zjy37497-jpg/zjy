@@ -191,7 +191,10 @@ Page({
   },
 
   makeAssistant(id, raw, source) {
-    const r = parse(raw);
+    const msgs = this.data.messages || [];
+    const recentIds = msgs.filter(m => m.role === 'assistant').slice(-2).reverse().map(m => m.stickerId || '');
+    const userTexts = msgs.filter(m => m.role === 'user').map(m => m.text || '');
+    const r = parse(raw, { recentIds, userTexts });
     return {
       id: 'a' + id,
       role: 'assistant',
