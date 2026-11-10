@@ -1161,14 +1161,34 @@
   45% { opacity: 1; transform: scaleY(3.5) scaleX(1.05); }
 }
 .voice-button {
-  position: relative; z-index: 2;
-  display: flex; align-items: flex-start; justify-content: center;
-  width: 100%; height: 242rpx; padding-top: 88rpx;
-  border-radius: 380rpx 380rpx 0 0;
-  background: linear-gradient(180deg,rgba(255,205,213,.48),rgba(255,240,238,.24));
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  width: 750rpx;
+  height: 263rpx;
+  padding-top: 88rpx;
+  background: transparent;
 }
-.voice-cancel-armed .voice-button { background: linear-gradient(180deg,rgba(170,169,180,.36),rgba(255,240,238,.18)); }
-.voice-button-icon { display: block; width: 54rpx; height: 76rpx; }
+.voice-ellipse {
+  position: absolute;
+  z-index: 0;
+  left: 50%;
+  top: 0;
+  width: 750rpx;
+  height: 263rpx;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+.voice-cancel-armed .voice-ellipse { opacity: .35; }
+.voice-button-icon {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 54rpx;
+  height: 76rpx;
+}
 /* 搭练主题色点击反馈：珊瑚粉高亮 + 柔光扩散 + 轻微按压。
    仅改变触摸反馈，不改变原有卡片点击业务逻辑。 */
 .tap-feedback {
