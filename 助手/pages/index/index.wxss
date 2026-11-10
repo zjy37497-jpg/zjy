@@ -1009,16 +1009,19 @@
 
 .record-add-icon {
   display: block;
-  width: 42rpx;
-  height: 42rpx;
+  width: 54rpx;
+  height: 54rpx;
 }
 
 .record-send {
-  border-radius: 50%;
-  background: #ff5d55;
-  color: #fff;
-  font-size: 30rpx;
-  font-weight: 600;
+  background: transparent;
+  padding: 0;
+}
+
+.record-send-icon {
+  display: block;
+  width: 60rpx;
+  height: 60rpx;
 }
 
 /* Photo picker: centered over record entry, matching supplied large frosted reference. */

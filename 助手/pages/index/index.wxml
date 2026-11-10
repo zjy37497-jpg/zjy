@@ -296,10 +296,12 @@
             placeholder-style="color:#a39fa4;"
           />
         </view>
-        <view class="record-add" bindtap="showPhotoMenu">
-          <image class="record-add-icon" src="/images/figma/composer-add.png" mode="aspectFit" />
+        <view class="record-add" bindtap="showPhotoMenu" aria-label="添加照片">
+          <image class="record-add-icon" src="/images/figma/record-plus.png" mode="aspectFit" />
         </view>
-        <view class="record-send" bindtap="sendRecord">↑</view>
+        <view class="record-send" bindtap="sendRecord" aria-label="发送记录">
+          <image class="record-send-icon" src="/images/figma/record-send.png" mode="aspectFit" />
+        </view>
       </view>
 
       <view wx:if="{{photoMenu}}" class="photo-popover" catchtouchstart="noop" catchtap="noop">
