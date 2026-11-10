@@ -277,8 +277,7 @@
       </view>
 
       <view class="record-input-row">
-        <view class="record-line"></view>
-        <view class="record-input-wrap">
+        <view class="record-input-wrap" bindtap="hidePhotoMenu">
           <input
             class="record-input"
             value="{{recordInput}}"
@@ -288,6 +287,7 @@
             cursor-color="#ff5f58"
             cursor-spacing="22"
             bindinput="onRecordInput"
+            bindfocus="hidePhotoMenu"
             bindconfirm="sendRecord"
             confirm-type="send"
             placeholder="{{activeRecord.placeholder}}"
