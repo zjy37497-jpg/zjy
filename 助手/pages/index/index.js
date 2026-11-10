@@ -432,7 +432,11 @@ Page({
   noop() {},
 
   onRecordInput(e) {
-    this.setData({ recordInput: e.detail.value });
+    this.setData({ recordInput: e.detail.value, photoMenu: false });
+  },
+
+  hidePhotoMenu() {
+    if (this.data.photoMenu) this.setData({ photoMenu: false });
   },
 
   showPhotoMenu() {
