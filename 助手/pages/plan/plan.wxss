@@ -310,7 +310,8 @@
   margin-top: 22rpx;
 }
 
-/* Wide P3 coral-to-orange action, the original proportions at form width. */
+/* P3 wide gradient pill: use a view instead of the native button so
+   WeChat's default button width and image-child rendering cannot shrink it. */
 .generate-button {
   display: flex;
   align-items: center;
@@ -318,25 +319,21 @@
   box-sizing: border-box;
   width: 100%;
   height: 96rpx;
-  margin: 40rpx auto 0;
+  margin: 40rpx 0 0;
   padding: 0;
-  border: none;
-  border-radius: 52rpx;
-  overflow: hidden;
+  border: 0;
+  border-radius: 999rpx;
   background: linear-gradient(105deg, #ffa373 0%, #ff7d62 49%, #ff4d43 100%);
+  text-align: center;
+}
+.generate-button-text {
   color: #fff;
   font-size: 30rpx;
   font-weight: 600;
   line-height: 1;
 }
-.generate-button-art {
-  display: block;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-}
-.generate-button::after { border: none; }
 .generate-button:active { opacity: .9; }
+.generate-button.is-generating { opacity: .72; }
 
 .auto-fill-note {
   margin: 24rpx 16rpx 0;
@@ -687,9 +684,10 @@
 }
 
 
-/* Plan reveal: one soft fade-and-rise, followed by natural scrolling.
-   Only opacity/transform animate to avoid iPhone image re-rasterization. */
+/* Plan reveal: a soft fade-and-rise, followed by measured page scrolling. */
 .plan-reveal {
+  display: block;
+  width: 100%;
   margin-top: 24rpx;
   animation: plan-card-enter 560ms cubic-bezier(.18,.78,.28,1) both;
 }
@@ -711,9 +709,46 @@
   position: absolute;
   left: 5%;
   right: 5%;
-  bottom: 4%;
-  height: 21%;
+  bottom: 3%;
+  height: 24%;
   pointer-events: auto;
+}
+.plan-fallback-heading {
+  padding: 40rpx 38rpx 28rpx;
+  color: #2e2021;
+  font-size: 34rpx;
+  font-weight: 700;
+}
+.plan-fallback-hero {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: 420rpx;
+  padding: 34rpx 38rpx;
+  background: linear-gradient(155deg, #71686a 0%, #403638 70%, #241b1c 100%);
+  color: #fff;
+}
+.plan-fallback-tag {
+  align-self: flex-start;
+  margin-bottom: 22rpx;
+  padding: 12rpx 24rpx;
+  border-radius: 999rpx;
+  background: rgba(255,255,255,.18);
+  font-size: 22rpx;
+}
+.plan-fallback-title { font-size: 38rpx; font-weight: 650; }
+.plan-fallback-subtitle { margin-top: 10rpx; color: rgba(255,255,255,.72); font-size: 21rpx; }
+.plan-fallback-cta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 96rpx;
+  margin: 38rpx;
+  border-radius: 999rpx;
+  background: linear-gradient(105deg, #ffa373 0%, #ff7d62 49%, #ff4d43 100%);
+  color: #fff;
+  font-size: 30rpx;
+  font-weight: 600;
 }
 .plan-details-reveal {
   margin-top: 22rpx;

@@ -128,10 +128,9 @@
           </view>
         </view>
 
-        <button class="generate-button {{generating ? 'is-generating' : ''}}" bindtap="generatePlan" disabled="{{generating}}" aria-label="生成我的计划">
-          <image wx:if="{{!generating}}" class="generate-button-art" src="/images/figma/plan-generate-button.webp" mode="scaleToFill" />
-          <text wx:else>正在生成…</text>
-        </button>
+        <view class="generate-button {{generating ? 'is-generating' : ''}}" bindtap="generatePlan" aria-label="生成我的计划">
+          <text class="generate-button-text">{{generating ? '正在生成…' : '生成我的计划'}}</text>
+        </view>
       </view>
 
       <view wx:if="{{expanded}}" class="auto-fill-note">
@@ -139,10 +138,19 @@
       </view>
 
       <!-- Result arrives after completion, like the supplied reference clip. -->
-      <view wx:if="{{planGenerated && plan}}" id="generated-plan" class="plan-reveal">
+      <view wx:if="{{planGenerated}}" id="generated-plan" class="plan-reveal">
         <view class="plan-result-card">
-          <image class="plan-result-card-art" src="/images/figma/plan-customized-card.webp" mode="widthFix" />
-          <view class="plan-result-hit-area" bindtap="togglePlanDetails" aria-label="我的训练计划"></view>
+          <image wx:if="{{!planCardImageFailed}}" class="plan-result-card-art" src="/images/figma/plan-customized-card.webp" mode="widthFix" binderror="onPlanCardImageError" />
+          <view wx:if="{{planCardImageFailed}}" class="plan-result-fallback">
+            <view class="plan-fallback-heading">定制专属训练计划</view>
+            <view class="plan-fallback-hero">
+              <text class="plan-fallback-tag">12节课程</text>
+              <text class="plan-fallback-title">全身力量训练</text>
+              <text class="plan-fallback-subtitle">根据你的身体情况与训练目标生成</text>
+            </view>
+            <view class="plan-fallback-cta" bindtap="togglePlanDetails">我的训练计划</view>
+          </view>
+          <view wx:if="{{!planCardImageFailed}}" class="plan-result-hit-area" bindtap="togglePlanDetails" aria-label="我的训练计划"></view>
         </view>
         <view wx:if="{{planDetailsOpen}}" id="plan-details" class="result-sheet plan-details-reveal">
           <view class="result-eyebrow">你的专属安排</view>

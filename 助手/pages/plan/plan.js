@@ -57,6 +57,7 @@ Page({
     generating: false,
     planGenerated: false,
     planDetailsOpen: false,
+    planCardImageFailed: false,
     plan: null,
     done: false,
     anchor: '',
@@ -410,7 +411,7 @@ Page({
 
   generatePlan() {
     if (this.data.generating) return;
-    this.setData({ generating: true, planGenerated: false, planDetailsOpen: false });
+    this.setData({ generating: true, planGenerated: false, planDetailsOpen: false, planCardImageFailed: false });
     this.timer = setTimeout(() => {
       const plan = this.buildPlan();
       const profile = {
@@ -435,20 +436,48 @@ Page({
         plan,
         anchor: 'generated-plan'
       }, () => {
-        // Scroll smoothly after the card mounts; no instantaneous layout jump.
-        wx.nextTick(() => {
-          wx.pageScrollTo({ selector: '#generated-plan', duration: 500, offsetTop: -135, fail: () => {} });
-        });
+        // Measure the rendered card and scroll to its real document position.
+        wx.createSelectorQuery().in(this)
+          .selectViewport().scrollOffset()
+          .select('#generated-plan').boundingClientRect()
+          .exec(res => {
+            const viewport = res && res[0];
+            const cardRect = res && res[1];
+            if (viewport && cardRect) {
+              wx.pageScrollTo({
+                scrollTop: Math.max(0, viewport.scrollTop + cardRect.top - (this.data.navTotalHeight || 0) - 24),
+                duration: 520,
+                fail: () => {}
+              });
+            }
+          });
+        wx.showToast({ title: '专属计划已生成', icon: 'success', duration: 1200 });
       });
     }, 720);
+  },
+
+  onPlanCardImageError() {
+    this.setData({ planCardImageFailed: true });
   },
 
   togglePlanDetails() {
     const opening = !this.data.planDetailsOpen;
     this.setData({ planDetailsOpen: opening }, () => {
-      if (opening) wx.nextTick(() => {
-        wx.pageScrollTo({ selector: '#plan-details', duration: 420, offsetTop: -130, fail: () => {} });
-      });
+      if (!opening) return;
+      wx.createSelectorQuery().in(this)
+        .selectViewport().scrollOffset()
+        .select('#plan-details').boundingClientRect()
+        .exec(res => {
+          const viewport = res && res[0];
+          const detailsRect = res && res[1];
+          if (viewport && detailsRect) {
+            wx.pageScrollTo({
+              scrollTop: Math.max(0, viewport.scrollTop + detailsRect.top - (this.data.navTotalHeight || 0) - 24),
+              duration: 420,
+              fail: () => {}
+            });
+          }
+        });
     });
   },
 
