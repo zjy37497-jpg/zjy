@@ -1,7 +1,44 @@
 {
   "description": "搭练 AI 健身助手 · 本地演示版",
   "packOptions": {
-    "ignore": [],
+    "ignore": [
+      {
+        "type": "folder",
+        "value": ".git"
+      },
+      {
+        "type": "folder",
+        "value": "docs"
+      },
+      {
+        "type": "folder",
+        "value": "skills"
+      },
+      {
+        "type": "file",
+        "value": "images/figma/result-person-figma.png"
+      },
+      {
+        "type": "file",
+        "value": "images/figma/voice-hold-ellipse.png"
+      },
+      {
+        "type": "file",
+        "value": "project.private.config.json"
+      },
+      {
+        "type": "file",
+        "value": "README.md"
+      },
+      {
+        "type": "file",
+        "value": "视觉还原说明.txt"
+      },
+      {
+        "type": "file",
+        "value": ".gitignore"
+      }
+    ],
     "include": []
   },
   "setting": {
@@ -19,7 +56,7 @@
     "uglifyFileName": false,
     "checkInvalidKey": true,
     "checkSiteMap": true,
-    "uploadWithSourceMap": true,
+    "uploadWithSourceMap": false,
     "compileHotReLoad": false,
     "useMultiFrameRuntime": true,
     "useApiHook": true,
