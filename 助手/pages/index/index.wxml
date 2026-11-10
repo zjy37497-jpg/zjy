@@ -41,7 +41,7 @@
         <view class="mascot-stage">
           <image class="mascot-body" src="/images/figma/mascot-body.png" mode="scaleToFill" />
           <image class="mascot-star-layer" src="/images/figma/mascot-star-full.png" mode="scaleToFill" />
-          <view class="mascot-eyes-layer {{mascotIntroBlink ? 'mascot-intro-blink' : ''}}">
+          <view class="mascot-eyes-layer">
             <image class="mascot-eye-left" src="/images/figma/mascot-eye-left.png" mode="scaleToFill" />
             <image class="mascot-eye-right" src="/images/figma/mascot-eye-right.png" mode="scaleToFill" />
             <image class="mascot-eye-open" src="/images/figma/mascot-eye-left.png" mode="scaleToFill" />
@@ -84,10 +84,6 @@
             </view>
             <view class="hero-glyph glyph-ji" style="left:282.30rpx;top:64.64rpx;width:47.70rpx;height:47.36rpx;animation-delay:0.950s;">
               <image class="hero-glyph-image" src="/images/figma/hero-slogan-crisp.svg" mode="scaleToFill" style="left:-282.30rpx;top:-64.64rpx;" />
-            </view>
-            <view class="slogan-light-overlay" aria-hidden="true">
-              <text class="slogan-light-line slogan-light-line-1">一起进步</text>
-              <text class="slogan-light-line slogan-light-line-2">成为更好的自己</text>
             </view>
           </view>
         </view>
