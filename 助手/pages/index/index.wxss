@@ -717,8 +717,7 @@
   background: #fdffff;
   box-shadow: 0 -10rpx 28rpx rgba(91, 72, 76, 0.04);
 }
-/* Single stationary 4-card row matching the supplied P2 reference.
-   Each original P3–P6 image includes its own rounded background and type. */
+/* Reference P2: one stationary row of four rounded image components. */
 .quick-tabs {
   width: 100%;
   margin-bottom: 12rpx;
