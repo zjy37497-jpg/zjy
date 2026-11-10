@@ -283,6 +283,8 @@
             class="record-input"
             value="{{recordInput}}"
             focus="{{recordFocus}}"
+            hold-keyboard="true"
+            confirm-hold="true"
             cursor-color="#ff5f58"
             cursor-spacing="22"
             bindinput="onRecordInput"
@@ -299,7 +301,7 @@
         <view class="record-send" bindtap="sendRecord">↑</view>
       </view>
 
-      <view wx:if="{{photoMenu}}" class="photo-popover" catchtap="noop">
+      <view wx:if="{{photoMenu}}" class="photo-popover" catchtouchstart="noop" catchtap="noop">
         <view class="photo-menu-item" bindtap="chooseFromAlbum">
           <image class="photo-menu-icon" src="/images/figma/photo-album.png" mode="aspectFit" />
           <text>相册</text>
