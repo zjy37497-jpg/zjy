@@ -1061,41 +1061,114 @@
 
 
 .composer-mic-icon { width: 44rpx; height: 44rpx; opacity: .96; }
+
+/* Lightweight animated diffusion, using independent drifting color patches. */
 .voice-mask {
   position: fixed;
   top: 0; right: 0; bottom: 0; left: 0;
   z-index: 120;
-  display: flex; align-items: center; flex-direction: column;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
   justify-content: flex-end;
+  overflow: hidden;
   padding-bottom: calc(28rpx + env(safe-area-inset-bottom));
-  background: linear-gradient(160deg,#f9f6f3 8%,#f7f2ed 35%,#f6ecef 72%,#f5ebf0 100%);
+  background: #fffaf7;
 }
-.voice-mask::before {
+.voice-diffusion {
   position: absolute;
-  right: 68rpx; bottom: 468rpx;
-  width: 188rpx; height: 188rpx;
-  border-radius: 50%;
-  background: radial-gradient(circle,rgba(216,214,244,.32) 0%,rgba(216,214,244,0) 72%);
-  content: "";
-  filter: blur(8rpx);
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
 }
-.voice-content { position: relative; z-index: 2; display: flex; align-items: center; flex-direction: column; margin-bottom: 188rpx; }
-.voice-title { color: #2d2324; font-size: 44rpx; font-weight: 700; line-height: 1.28; }
-.voice-tip { display: flex; align-items: center; margin-top: 24rpx; color: #8a8489; font-size: 22rpx; line-height: 1.2; }
+.voice-blob {
+  position: absolute;
+  border-radius: 50%;
+  opacity: .67;
+  will-change: transform;
+  pointer-events: none;
+}
+.voice-blob-coral {
+  width: 790rpx; height: 880rpx;
+  top: -230rpx; right: -330rpx;
+  background: radial-gradient(ellipse at center, rgba(255,173,180,.53) 0%, rgba(255,173,180,.19) 48%, rgba(255,173,180,0) 76%);
+  animation: voice-drift-coral 11s ease-in-out infinite alternate;
+}
+.voice-blob-peach {
+  width: 850rpx; height: 820rpx;
+  top: 290rpx; left: -370rpx;
+  background: radial-gradient(ellipse at center, rgba(255,216,163,.45) 0%, rgba(255,216,163,.17) 50%, rgba(255,216,163,0) 78%);
+  animation: voice-drift-peach 13s ease-in-out infinite alternate;
+}
+.voice-blob-lavender {
+  width: 620rpx; height: 580rpx;
+  right: -250rpx; bottom: 380rpx;
+  background: radial-gradient(ellipse at center, rgba(216,205,249,.35) 0%, rgba(216,205,249,.11) 48%, rgba(216,205,249,0) 78%);
+  animation: voice-drift-lavender 10s ease-in-out infinite alternate;
+}
+.voice-blob-mint {
+  width: 480rpx; height: 460rpx;
+  left: 270rpx; bottom: 310rpx;
+  background: radial-gradient(ellipse at center, rgba(202,230,218,.30) 0%, rgba(202,230,218,.09) 51%, rgba(202,230,218,0) 78%);
+  animation: voice-drift-mint 12s ease-in-out infinite alternate;
+}
+@keyframes voice-drift-coral {
+  from { transform: translate3d(-30rpx, 30rpx, 0) scale(.95); }
+  to { transform: translate3d(80rpx, -90rpx, 0) scale(1.10); }
+}
+@keyframes voice-drift-peach {
+  from { transform: translate3d(20rpx, -60rpx, 0) scale(1); }
+  to { transform: translate3d(120rpx, 50rpx, 0) scale(1.12); }
+}
+@keyframes voice-drift-lavender {
+  from { transform: translate3d(20rpx, -40rpx, 0) scale(.94); }
+  to { transform: translate3d(-90rpx, 90rpx, 0) scale(1.13); }
+}
+@keyframes voice-drift-mint {
+  from { transform: translate3d(-45rpx, 20rpx, 0) scale(.92); }
+  to { transform: translate3d(75rpx, -75rpx, 0) scale(1.12); }
+}
+.voice-content {
+  position: relative; z-index: 2;
+  display: flex; align-items: center; flex-direction: column;
+  margin-bottom: 188rpx;
+}
+.voice-title {
+  color: #2d2324;
+  font-size: 44rpx; font-weight: 700; line-height: 1.28;
+}
+.voice-tip {
+  display: flex; align-items: center;
+  margin-top: 24rpx; color: #8a8489; font-size: 22rpx; line-height: 1.2;
+}
 .voice-tip-gap { margin-left: 18rpx; }
-.voice-dots { display: flex; align-items: center; justify-content: center; height: 34rpx; margin-top: 94rpx; gap: 14rpx; }
-.voice-dot { display: block; width: 8rpx; height: 8rpx; border-radius: 50%; background: rgba(255,128,128,.24); }
-.voice-dot.is-active { width: 10rpx; height: 10rpx; background: rgba(255,128,128,.58); }
-.voice-dot.is-peak { width: 12rpx; height: 24rpx; border-radius: 8rpx; background: #ff5252; }
+.voice-dots {
+  display: flex; align-items: center; justify-content: center;
+  height: 36rpx; margin-top: 94rpx; gap: 14rpx;
+}
+.voice-dot {
+  display: block;
+  width: 8rpx; height: 8rpx;
+  border-radius: 50%;
+  background: rgba(255,128,128,.42);
+  transform-origin: center;
+  animation: voice-speech-pulse 760ms ease-in-out infinite;
+}
+.voice-dot.is-active { background: rgba(255,128,128,.80); }
+.voice-dot.is-peak { background: #ff8080; }
+@keyframes voice-speech-pulse {
+  0%,100% { opacity: .35; transform: scaleY(.6) scaleX(.8); }
+  45% { opacity: 1; transform: scaleY(3.5) scaleX(1.05); }
+}
 .voice-button {
   position: relative; z-index: 2;
   display: flex; align-items: flex-start; justify-content: center;
   width: 100%; height: 242rpx; padding-top: 88rpx;
   border-radius: 380rpx 380rpx 0 0;
-  background: linear-gradient(180deg,rgba(247,225,228,.7),rgba(247,225,228,.22));
+  background: linear-gradient(180deg,rgba(255,205,213,.48),rgba(255,240,238,.24));
 }
+.voice-cancel-armed .voice-button { background: linear-gradient(180deg,rgba(170,169,180,.36),rgba(255,240,238,.18)); }
 .voice-button-icon { display: block; width: 54rpx; height: 76rpx; }
-
 /* 搭练主题色点击反馈：珊瑚粉高亮 + 柔光扩散 + 轻微按压。
    仅改变触摸反馈，不改变原有卡片点击业务逻辑。 */
 .tap-feedback {

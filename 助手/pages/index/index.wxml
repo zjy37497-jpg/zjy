@@ -251,7 +251,7 @@
         <view class="composer-plus" bindtap="openAttach" aria-label="添加">
           <image class="composer-action-icon" src="/images/figma/composer-add.png" mode="aspectFit" />
         </view>
-        <view class="composer-mic" catchtap="showVoice" aria-label="语音输入">
+        <view class="composer-mic" catchtouchstart="onVoiceHoldStart" catchtouchmove="onVoiceHoldMove" catchtouchend="onVoiceHoldEnd" catchtouchcancel="onVoiceHoldCancel" aria-label="按住语音输入">
           <image class="composer-action-icon composer-mic-icon" src="/images/figma/composer-mic-ref.png" mode="aspectFit" />
         </view>
       </view>
@@ -312,19 +312,29 @@
     </view>
   </view>
 
-  <view wx:if="{{voiceOpen}}" class="voice-mask" catchtap="cancelVoice">
+  <!-- This layer exists only while the finger is held on the microphone. -->
+  <view wx:if="{{voiceOpen}}" class="voice-mask {{voiceCancelArmed ? 'voice-cancel-armed' : ''}}"
+    catchtouchstart="noop" catchtouchmove="onVoiceHoldMove"
+    catchtouchend="onVoiceHoldEnd" catchtouchcancel="onVoiceHoldCancel">
+    <view class="voice-diffusion" aria-hidden="true">
+      <view class="voice-blob voice-blob-coral"></view>
+      <view class="voice-blob voice-blob-peach"></view>
+      <view class="voice-blob voice-blob-lavender"></view>
+      <view class="voice-blob voice-blob-mint"></view>
+    </view>
     <view class="voice-content">
-      <view class="voice-title">AI搭子正在听，请说话</view>
-      <view class="voice-tip"><text>松手发送</text><text class="voice-tip-gap">上滑取消</text></view>
+      <view class="voice-title">{{voiceCancelArmed ? '松手取消录音' : 'AI搭子正在听，请说话'}}</view>
+      <view class="voice-tip">
+        <text>{{voiceCancelArmed ? '向下移回继续录音' : '松手结束'}}</text>
+        <text wx:if="{{!voiceCancelArmed}}" class="voice-tip-gap">上滑取消</text>
+      </view>
       <view class="voice-dots">
-        <text
-          wx:for="{{voiceDots}}"
-          wx:key="id"
+        <view wx:for="{{voiceDots}}" wx:key="id"
           class="voice-dot {{item.active ? 'is-active' : ''}} {{item.peak ? 'is-peak' : ''}}"
-        ></text>
+          style="animation-delay: {{item.id * -0.085}}s;"></view>
       </view>
     </view>
-    <view class="voice-button" catchtap="startVoice">
+    <view class="voice-button">
       <image class="voice-button-icon" src="/images/figma/voice-mic-active-ref.png" mode="aspectFit" />
     </view>
   </view>

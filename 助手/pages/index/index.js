@@ -76,6 +76,7 @@ Page({
     photoMenu: false,
     voiceOpen: false,
     voiceRecording: false,
+    voiceCancelArmed: false,
     voiceDots: makeVoiceDots()
   }),
 
@@ -104,9 +105,6 @@ Page({
     const saved = wx.getStorageSync('dalian_mode');
     this.setData({ useAI: saved !== 'local' });
     this.setupRecorder();
-    if (options && options.voice === '1') {
-      setTimeout(() => this.showVoice(), 260);
-    }
     if (options && options.action && RECORD_TYPES[options.action]) {
       setTimeout(() => this.openRecord(options.action), 260);
     }
@@ -132,10 +130,12 @@ Page({
 
   onHide() {
     if (this._heroEntranceTimer) clearTimeout(this._heroEntranceTimer);
+    if (this._voiceHeld) this.finishVoiceHold(true);
   },
 
   onUnload() {
     if (this._heroEntranceTimer) clearTimeout(this._heroEntranceTimer);
+    if (this._voiceHeld) this.finishVoiceHold(true);
     this.stopThinkingTimer();
     this.finishTyping();
     if (this._rippleTimer) clearTimeout(this._rippleTimer);
@@ -163,10 +163,13 @@ Page({
     if (!wx.getRecorderManager) return;
     this.recorder = wx.getRecorderManager();
     this.recorder.onStop(() => {
-      this.setData({ voiceOpen: false, voiceRecording: false });
+      this._recordingStarted = false;
+      this.setData({ voiceOpen: false, voiceRecording: false, voiceCancelArmed: false });
     });
     this.recorder.onError(() => {
-      this.setData({ voiceOpen: false, voiceRecording: false });
+      this._recordingStarted = false;
+      this._voiceHeld = false;
+      this.setData({ voiceOpen: false, voiceRecording: false, voiceCancelArmed: false });
       wx.showToast({ title: '录音没有成功，请再试一次', icon: 'none' });
     });
   },
@@ -469,21 +472,33 @@ Page({
     this.send(text, image);
   },
 
-  showVoice() {
-    this.setData({ voiceOpen: true, voiceRecording: false });
-  },
-
-  startVoice() {
-    if (this.data.voiceRecording) return;
+  // Recording is a press-and-hold gesture: never open the semicircle on a tap.
+  onVoiceHoldStart(e) {
+    if (this._voiceHeld || this.data.voiceRecording) return;
+    this._voiceHeld = true;
+    this._voiceGestureId = (this._voiceGestureId || 0) + 1;
+    const touch = e.touches && e.touches[0];
+    this._voiceStartY = touch ? touch.clientY : 0;
+    this.setData({ voiceOpen: true, voiceCancelArmed: false, voiceRecording: false });
+    const gestureId = this._voiceGestureId;
     const start = () => {
-      this.setData({ voiceOpen: true, voiceRecording: true });
-      if (this.recorder) {
-        this.recorder.start({
-          duration: 60000,
-          format: 'mp3',
-          sampleRate: 16000,
-          numberOfChannels: 1
-        });
+      // Permission requests can finish after the user has released the button.
+      if (!this._voiceHeld || gestureId !== this._voiceGestureId) return;
+      if (!this.recorder) {
+        this._voiceHeld = false;
+        this.setData({ voiceOpen: false });
+        wx.showToast({ title: '当前设备不支持录音', icon: 'none' });
+        return;
+      }
+      try {
+        this.recorder.start({ duration: 60000, format: 'mp3', sampleRate: 16000, numberOfChannels: 1 });
+        this._recordingStarted = true;
+        this.setData({ voiceRecording: true });
+      } catch (err) {
+        this._voiceHeld = false;
+        this._recordingStarted = false;
+        this.setData({ voiceOpen: false, voiceRecording: false });
+        wx.showToast({ title: '无法启动麦克风', icon: 'none' });
       }
     };
     if (wx.authorize) {
@@ -491,24 +506,62 @@ Page({
         scope: 'scope.record',
         success: start,
         fail: () => {
+          if (gestureId !== this._voiceGestureId) return;
+          this._voiceHeld = false;
           this.setData({ voiceOpen: false, voiceRecording: false });
-          wx.showToast({ title: '需要麦克风权限才能语音输入', icon: 'none' });
+          wx.showToast({ title: '需要麦克风权限才能录音', icon: 'none' });
         }
       });
-    } else {
-      start();
+    } else start();
+  },
+
+  onVoiceHoldMove(e) {
+    if (!this._voiceHeld) return;
+    const touch = (e.touches && e.touches[0]) || (e.changedTouches && e.changedTouches[0]);
+    if (!touch) return;
+    const cancel = this._voiceStartY - touch.clientY > 80;
+    if (cancel !== this.data.voiceCancelArmed) this.setData({ voiceCancelArmed: cancel });
+  },
+
+  onVoiceHoldEnd(e) {
+    if (!this._voiceHeld) return;
+    const touch = e.changedTouches && e.changedTouches[0];
+    const cancel = this.data.voiceCancelArmed || Boolean(touch && this._voiceStartY - touch.clientY > 80);
+    this.finishVoiceHold(cancel);
+  },
+
+  onVoiceHoldCancel() {
+    this.finishVoiceHold(true);
+  },
+
+  finishVoiceHold(cancel) {
+    if (!this._voiceHeld && !this._recordingStarted) return;
+    this._voiceHeld = false;
+    this._voiceGestureId = (this._voiceGestureId || 0) + 1;
+    if (this._recordingStarted && this.recorder) {
+      this._recordingStarted = false;
+      this.recorder.stop();
     }
+    this.setData({ voiceOpen: false, voiceRecording: false, voiceCancelArmed: false });
+    if (cancel) return;
+    // The existing project captures audio but has no speech-to-text integration yet.
+    // Do not claim a voice message was delivered.
+  },
+
+  showVoice() {
+    // Legacy navigation used to open a static overlay. Press-and-hold is now required.
+  },
+
+  startVoice() {
+    // Legacy tap handler intentionally disabled; recording starts on touchstart.
   },
 
   stopVoice() {
-    if (!this.data.voiceRecording) return;
-    if (this.recorder) this.recorder.stop();
-    this.setData({ voiceOpen: false, voiceRecording: false });
+    this.finishVoiceHold(false);
   },
 
   cancelVoice() {
-    if (this.data.voiceRecording && this.recorder) this.recorder.stop();
-    this.setData({ voiceOpen: false, voiceRecording: false });
+    this.finishVoiceHold(true);
   },
 
   copyMessage(e) {
