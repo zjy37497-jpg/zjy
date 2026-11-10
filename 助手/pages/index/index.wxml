@@ -30,11 +30,13 @@
   </view>
 
   <scroll-view
+    id="chat-scroll"
     class="index-scroll"
     style="padding-top: {{navTotalHeight}}px;"
     scroll-y
     scroll-with-animation
-    scroll-into-view="{{anchor}}"
+    scroll-top="{{scrollTop}}"
+    bindscroll="onChatScroll"
   >
     <view wx:if="{{!messages.length}}">
       <view class="home-hero">
@@ -156,12 +158,9 @@
             <view class="message-copy">
               <block wx:if="{{item.isTyping}}"><text selectable class="reveal-stable">{{item.revealStable}}</text><text class="reveal-focus">{{item.revealFocus}}</text><text class="reveal-haze">{{item.revealHaze}}</text><text class="typing-caret">│</text></block><text wx:else selectable>{{item.displayText !== undefined ? item.displayText : item.text}}</text>
             </view>
-            <image
-              wx:if="{{item.sticker && !item.isTyping}}"
-              class="sticker"
-              src="{{item.sticker}}"
-              mode="aspectFit"
-            />
+            <view wx:if="{{item.sticker && !item.isTyping}}" class="sticker-wrap">
+              <image class="sticker" src="{{item.sticker}}" mode="aspectFit" bindload="onStickerReady" />
+            </view>
             <view class="ai-credit">
               {{item.source === 'local' ? '本地演示回复' : (item.source === 'fixed' ? 'AI搭子' : '云端AI生成')}}
             </view>
@@ -208,6 +207,7 @@
 
     </view>
 
+    <view id="chat-end" class="chat-end"></view>
     <view class="scroll-spacer"></view>
   </scroll-view>
 
