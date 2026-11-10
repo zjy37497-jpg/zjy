@@ -61,6 +61,7 @@ Page({
     chatKeyboardHeight: 0,
     messages: [],
     anchor: '',
+    scrollTop: 0,
     loading: false,
     thinkingSeconds: 0,
     useAI: true,
@@ -103,6 +104,8 @@ Page({
   },
 
   onLoad(options) {
+    this._unloaded = false;
+    this._stickBottom = true;
     this.seq = 0;
     const saved = wx.getStorageSync('dalian_mode');
     this.setData({ useAI: saved !== 'local' });
@@ -138,6 +141,8 @@ Page({
   },
 
   onUnload() {
+    this._unloaded = true;
+    if (this._followTimer) clearTimeout(this._followTimer);
     if (this._chatKeyboardBlurTimer) clearTimeout(this._chatKeyboardBlurTimer);
     if (this._heroEntranceTimer) clearTimeout(this._heroEntranceTimer);
     if (this._voiceHeld) this.finishVoiceHold(true);
@@ -251,7 +256,7 @@ Page({
         [key + '.revealFocus']: '',
         [key + '.revealHaze']: '',
         [key + '.isTyping']: false
-      });
+      }, () => this.scheduleFollowBottom());
     }
     this._typingIndex = null;
   },
@@ -261,7 +266,9 @@ Page({
     const items = this.data.messages.concat([assistant]).slice(-40);
     const index = items.length - 1;
     this._typingIndex = index;
-    this.setData({ messages: items, loading: !!loading, anchor: assistant.id }, () => {
+    this._stickBottom = true;
+    this.setData({ messages: items, loading: !!loading, anchor: '' }, () => {
+      this.scheduleFollowBottom(true);
       const chars = Array.from(assistant.text || '');
       if (!chars.length) { this.finishTyping(); return; }
       // Approximate the reference's quick-but-soft reveal, with micro-pauses
@@ -286,8 +293,7 @@ Page({
           [key + '.revealStable']: chars.slice(0, focusStart).join(''),
           [key + '.revealFocus']: chars.slice(focusStart, n).join(''),
           [key + '.revealHaze']: chars.slice(n, previewEnd).join(''),
-          anchor: assistant.id
-        });
+        }, () => this.scheduleFollowBottom());
         if (n >= chars.length) {
           // Brief hold: the leading letters settle before the full clean reply.
           this._typeTimer = setTimeout(() => this.finishTyping(), 145);
@@ -326,7 +332,8 @@ Page({
       return;
     }
 
-    this.setData({ messages, input: '', loading: true, anchor: 'loading' });
+    this._stickBottom = true;
+    this.setData({ messages, input: '', loading: true }, () => this.scheduleFollowBottom(true));
     this.startThinkingTimer();
     let answer = FAIL_TEXT;
     let failed = false;
@@ -638,6 +645,72 @@ Page({
   clear() {
     if (this.data.loading) return;
     this.finishTyping();
-    this.setData({ messages: [], input: '', anchor: '' });
+    this._stickBottom = true;
+    this.setData({ messages: [], input: '', anchor: '', scrollTop: 0 });
+  },
+
+  // Restore the ZIP's scroll-follow behavior. The scroll target is measured
+  // relative to the real composer, so GIF/sticker growth stays visible.
+  // Throttle layout measurements while text streams to prevent stutter.
+  onStickerReady() {
+    this.scheduleFollowBottom();
+  },
+
+  onChatScroll(e) {
+    if (Date.now() < (this._autoScrollUntil || 0)) return;
+    const d = e.detail || {};
+    if (!this._viewH) {
+      try {
+        this._viewH = (wx.getWindowInfo ? wx.getWindowInfo() : wx.getSystemInfoSync()).windowHeight;
+      } catch (err) { this._viewH = 0; }
+    }
+    if (!this._viewH) return;
+    const keyboardOffset = Number(this.data.chatKeyboardHeight) || 0;
+    const visibleHeight = Math.max(1, this._viewH - keyboardOffset);
+    this._stickBottom = (d.scrollHeight - d.scrollTop - visibleHeight) < 160;
+  },
+
+  scheduleFollowBottom(force) {
+    if (force) this._stickBottom = true;
+    if (this._followTimer) return;
+    this._followTimer = setTimeout(() => {
+      this._followTimer = null;
+      this.followBottom(force);
+    }, 90);
+  },
+
+  followBottom(force) {
+    if (this._unloaded || !this.data.messages.length) return;
+    if (!force && this._stickBottom === false) return;
+    if (this._followPending) {
+      this._followAgain = true;
+      return;
+    }
+    this._followPending = true;
+    const q = wx.createSelectorQuery().in(this);
+    q.select('#chat-scroll').scrollOffset();
+    q.select('#chat-end').boundingClientRect();
+    q.select('.composer-wrap').boundingClientRect();
+    q.exec(res => {
+      this._followPending = false;
+      const off = res && res[0];
+      const end = res && res[1];
+      const composer = res && res[2];
+      if (off && end && composer && !this._unloaded) {
+        const hidden = end.bottom - composer.top + 12;
+        if (hidden > 2) {
+          this._autoScrollUntil = Date.now() + 600;
+          const next = Math.max(0, off.scrollTop + hidden);
+          if (Math.abs(next - this.data.scrollTop) > 2) {
+            this.setData({ scrollTop: next });
+          }
+        }
+      }
+      if (this._followAgain) {
+        this._followAgain = false;
+        this.scheduleFollowBottom(force);
+      }
+    });
   }
+
 });
