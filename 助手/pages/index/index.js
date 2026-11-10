@@ -73,6 +73,7 @@ Page({
     recordInput: '',
     recordImage: '',
     recordFocus: false,
+    recordKeyboardHeight: 0,
     photoMenu: false,
     voiceOpen: false,
     voiceRecording: false,
@@ -419,14 +420,21 @@ Page({
       recordInput: '',
       recordImage: '',
       photoMenu: false,
-      recordFocus: false
+      recordFocus: false,
+      recordKeyboardHeight: 0
     }, () => {
       setTimeout(() => this.setData({ recordFocus: true }), 120);
     });
   },
 
   closeRecord() {
-    this.setData({ recordSheet: false, recordFocus: false, photoMenu: false });
+    this.setData({ recordSheet: false, recordFocus: false, photoMenu: false, recordKeyboardHeight: 0 });
+  },
+
+  onRecordKeyboardHeightChange(event) {
+    if (!this.data.recordSheet) return;
+    const height = Math.max(0, Number(event.detail && event.detail.height) || 0);
+    if (height !== this.data.recordKeyboardHeight) this.setData({ recordKeyboardHeight: height });
   },
 
   noop() {},
