@@ -57,7 +57,6 @@ Page({
   data: Object.assign({}, ui.getNavMetrics(), {
     ripple: { id: '', x: 0, y: 0 },
     heroEntrance: false,
-    mascotIntroBlink: false,
     input: '',
     messages: [],
     anchor: '',
@@ -122,27 +121,21 @@ Page({
 
   // Replay on entering home, without image-src frame switching (which flickers on phones).
   onShow() {
+    // Restart only the character-by-character slogan, not the mascot's eyes.
     if (this._heroEntranceTimer) clearTimeout(this._heroEntranceTimer);
-    if (this._mascotIntroTimer) clearTimeout(this._mascotIntroTimer);
-    this.setData({ heroEntrance: false, mascotIntroBlink: false }, () => {
+    this.setData({ heroEntrance: false }, () => {
       this._heroEntranceTimer = setTimeout(() => {
-        this.setData({ heroEntrance: true, mascotIntroBlink: true });
+        this.setData({ heroEntrance: true });
       }, 40);
-      // Exactly one greeting blink, then return to the existing looping eye animation.
-      this._mascotIntroTimer = setTimeout(() => {
-        this.setData({ mascotIntroBlink: false });
-      }, 1100);
     });
   },
 
   onHide() {
     if (this._heroEntranceTimer) clearTimeout(this._heroEntranceTimer);
-    if (this._mascotIntroTimer) clearTimeout(this._mascotIntroTimer);
   },
 
   onUnload() {
     if (this._heroEntranceTimer) clearTimeout(this._heroEntranceTimer);
-    if (this._mascotIntroTimer) clearTimeout(this._mascotIntroTimer);
     this.stopThinkingTimer();
     this.finishTyping();
     if (this._rippleTimer) clearTimeout(this._rippleTimer);
