@@ -58,6 +58,7 @@ Page({
     ripple: { id: '', x: 0, y: 0 },
     heroEntrance: false,
     input: '',
+    chatKeyboardHeight: 0,
     messages: [],
     anchor: '',
     loading: false,
@@ -130,11 +131,14 @@ Page({
   },
 
   onHide() {
+    if (this._chatKeyboardBlurTimer) clearTimeout(this._chatKeyboardBlurTimer);
+    if (this.data.chatKeyboardHeight) this.setData({ chatKeyboardHeight: 0 });
     if (this._heroEntranceTimer) clearTimeout(this._heroEntranceTimer);
     if (this._voiceHeld) this.finishVoiceHold(true);
   },
 
   onUnload() {
+    if (this._chatKeyboardBlurTimer) clearTimeout(this._chatKeyboardBlurTimer);
     if (this._heroEntranceTimer) clearTimeout(this._heroEntranceTimer);
     if (this._voiceHeld) this.finishVoiceHold(true);
     this.stopThinkingTimer();
@@ -177,6 +181,24 @@ Page({
 
   handleBack() {
     ui.goBack('/pages/index/index');
+  },
+
+  // Keep the composer immediately above the native keyboard. Native input
+  // adjust-position is disabled so WeChat does not move the page twice.
+  onChatKeyboardHeightChange(e) {
+    const height = Math.max(0, Number(e.detail && e.detail.height) || 0);
+    if (this.data.chatKeyboardHeight !== height) {
+      this.setData({ chatKeyboardHeight: height });
+    }
+  },
+
+  onChatInputBlur() {
+    // Keyboard-height-change supplies the actual value while the keyboard
+    // animates; a blur fallback prevents a dock left floating after dismissal.
+    if (this._chatKeyboardBlurTimer) clearTimeout(this._chatKeyboardBlurTimer);
+    this._chatKeyboardBlurTimer = setTimeout(() => {
+      if (this.data.chatKeyboardHeight) this.setData({ chatKeyboardHeight: 0 });
+    }, 180);
   },
 
   onInput(e) {
