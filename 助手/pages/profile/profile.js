@@ -3,6 +3,13 @@ const categoryNames = { basic: '本人基础信息', goals: '目标', preference
 const statusNames = { active: '本人自述', needs_confirmation: '仍需确认', resolved_by_user: '本人自述已恢复' };
 Page({
   data: { loading: false, ready: false, enabled: false, records: [], error: '' },
+  // Only an intentional menu action can open profile management.
+  // Simulator direct-page preview or stale launch route returns to chat.
+  onLoad(options) {
+    if (!options || options.manage !== '1') {
+      wx.reLaunch({ url: '/pages/index/index' });
+    }
+  },
   onShow() { this.refresh(); },
   async refresh() {
     if (this.data.loading) return;
