@@ -433,6 +433,8 @@ Page({
   },
 
   showPhotoMenu() {
+    if (!this.data.recordSheet || this.data.photoMenu) return;
+    // Keep the focused input and on-screen keyboard stable while menu floats above.
     this.setData({ photoMenu: true });
   },
 
