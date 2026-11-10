@@ -712,43 +712,46 @@
 }
 
 .composer-wrap.with-tabs {
-  padding-top: 18rpx;
-  border-top: 1rpx solid #f2eff0;
+  padding: 12rpx 32rpx 46rpx;
+  border-top: 0;
   background: #fdffff;
-  box-shadow: 0 -10rpx 28rpx rgba(91, 72, 76, 0.05);
+  box-shadow: 0 -10rpx 28rpx rgba(91, 72, 76, 0.04);
 }
-
+/* Single stationary 4-card row matching the supplied P2 reference.
+   Each original P3–P6 image includes its own rounded background and type. */
 .quick-tabs {
   width: 100%;
-  margin-bottom: 34rpx;
-  padding: 0;
-  white-space: nowrap;
+  margin-bottom: 12rpx;
 }
-
 .quick-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
   width: 100%;
+  gap: 8rpx;
 }
-
 .quick-chip {
-  display: inline-flex;
+  position: relative;
+  display: flex;
+  flex: 1;
+  min-width: 0;
   align-items: center;
-  flex: none;
-  height: 54rpx;
-  padding: 0 18rpx;
-  border-radius: 14rpx;
-  background: #f6f8fa;
-  color: #4d4243;
-  font-size: 20rpx;
+  justify-content: center;
+  height: 72rpx;
+  padding: 0;
+  overflow: hidden;
+  border-radius: 38rpx;
+  background: transparent;
+  transition: transform 150ms ease, opacity 150ms ease;
 }
-
-.quick-chip image {
-  width: 26rpx;
-  height: 26rpx;
-  margin-right: 8rpx;
+.quick-chip-art {
+  display: block;
+  width: 100%;
+  height: 72rpx;
+  pointer-events: none;
 }
+.quick-chip.quick-chip-pressed { transform: scale(.96); opacity: .88; }
+.quick-chip .touch-ripple { z-index: 2; }
 
 .composer-box {
   position: relative;
