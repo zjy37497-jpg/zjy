@@ -71,6 +71,7 @@ Page({
       '帮我制定一个减脂饮食计划'
     ],
     recordSheet: false,
+    recordReady: false,
     activeRecord: RECORD_TYPES.diet,
     recordInput: '',
     recordImage: '',
@@ -141,6 +142,7 @@ Page({
   },
 
   onUnload() {
+    if (this._recordRevealTimer) clearTimeout(this._recordRevealTimer);
     this._unloaded = true;
     if (this._followTimer) clearTimeout(this._followTimer);
     if (this._chatKeyboardBlurTimer) clearTimeout(this._chatKeyboardBlurTimer);
@@ -449,21 +451,33 @@ Page({
       recordInput: '',
       recordImage: '',
       photoMenu: false,
-      recordFocus: false,
+      recordFocus: true,
+      recordReady: false,
       recordKeyboardHeight: 0
-    }, () => {
-      setTimeout(() => this.setData({ recordFocus: true }), 120);
     });
+    // Reveal only after the keyboard reports its position.
+    if (this._recordRevealTimer) clearTimeout(this._recordRevealTimer);
+    this._recordRevealTimer = setTimeout(() => {
+      this._recordRevealTimer = null;
+      if (this.data.recordSheet && !this.data.recordReady) this.setData({recordReady:true});
+    }, 1000);
   },
 
   closeRecord() {
-    this.setData({ recordSheet: false, recordFocus: false, photoMenu: false, recordKeyboardHeight: 0 });
+    if (this._recordRevealTimer) clearTimeout(this._recordRevealTimer);
+    this.setData({ recordSheet: false, recordReady: false, recordFocus: false, photoMenu: false, recordKeyboardHeight: 0 });
   },
 
   onRecordKeyboardHeightChange(event) {
     if (!this.data.recordSheet) return;
     const height = Math.max(0, Number(event.detail && event.detail.height) || 0);
-    if (height !== this.data.recordKeyboardHeight) this.setData({ recordKeyboardHeight: height });
+    const patch = { recordKeyboardHeight: height };
+    if (height > 0 && !this.data.recordReady) {
+      patch.recordReady = true;
+      if (this._recordRevealTimer) clearTimeout(this._recordRevealTimer);
+      this._recordRevealTimer = null;
+    }
+    if (height !== this.data.recordKeyboardHeight || patch.recordReady) this.setData(patch);
   },
 
   noop() {},

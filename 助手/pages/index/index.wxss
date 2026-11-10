@@ -925,6 +925,15 @@
   border-radius: 20rpx 20rpx 0 0;
   background: #fff;
   box-shadow: 0 -10rpx 30rpx rgba(92, 72, 76, 0.04);
+  opacity: 0;
+  transform: translate3d(0, 8rpx, 0);
+  pointer-events: none;
+  transition: opacity 230ms ease-out, transform 280ms cubic-bezier(.2,.7,.3,1);
+}
+.record-sheet.record-sheet-ready {
+  opacity: 1;
+  transform: translate3d(0,0,0);
+  pointer-events: auto;
 }
 
 .record-header {

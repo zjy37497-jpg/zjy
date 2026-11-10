@@ -82,6 +82,7 @@ Page({
   },
 
   onUnload() {
+    if (this._genderGlintTimer) clearTimeout(this._genderGlintTimer);
     if (this.timer) clearTimeout(this.timer);
   },
 
@@ -176,7 +177,13 @@ Page({
   selectGender(e) {
     const next = e.currentTarget.dataset.value;
     if (next === this.data.gender) return;
-    this.setData({ gender: next, genderSwitchAnimated: true });
+    if (this._genderGlintTimer) clearTimeout(this._genderGlintTimer);
+    this.setData({ gender: next, genderSwitchAnimated: false }, () => {
+      this._genderGlintTimer = setTimeout(() => {
+        this._genderGlintTimer = null;
+        this.setData({ genderSwitchAnimated: true });
+      }, 16);
+    });
     this.tickHaptic('selection', true);
   },
 

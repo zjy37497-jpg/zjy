@@ -122,64 +122,31 @@
   transition: opacity 350ms cubic-bezier(.22,.75,.3,1);
 }
 .gender-image-color.is-visible { opacity: 1; }
-/* Four small sweeps trace the existing artwork edge on selection; no persistent
-   duplicate border and no expensive glow/shadow animation. */
+/* A gentle continuous rounded highlight, instead of four harsh straight traces. */
 .gender-border-flow {
   position: absolute;
   z-index: 2;
-  top: 2rpx; right: 2rpx; bottom: 2rpx; left: 2rpx;
+  top: 1rpx; right: 1rpx; bottom: 1rpx; left: 1rpx;
+  border: 3rpx solid transparent;
+  border-radius: 20rpx;
   pointer-events: none;
-}
-.male-flow { --trace-color: rgba(100, 152, 255, .86); }
-.female-flow { --trace-color: rgba(228, 102, 228, .86); }
-.gender-trace {
-  position: absolute;
-  background: var(--trace-color);
   opacity: 0;
+  animation: gender-outline-soft 680ms cubic-bezier(.2,.6,.3,1) both;
 }
-.gender-trace-top, .gender-trace-bottom {
-  left: 9rpx; right: 9rpx;
-  height: 3rpx;
-  transform: scaleX(0);
+.male-flow {
+  border-color: rgba(100,160,255,.72);
+  box-shadow: 0 0 10rpx rgba(117,170,255,.20);
 }
-.gender-trace-right, .gender-trace-left {
-  top: 9rpx; bottom: 9rpx;
-  width: 3rpx;
-  transform: scaleY(0);
+.female-flow {
+  border-color: rgba(229,115,222,.70);
+  box-shadow: 0 0 10rpx rgba(235,135,227,.19);
 }
-.gender-trace-top {
-  top: 0;
-  transform-origin: left center;
-  animation: gender-sweep-x 450ms ease-out both;
+@keyframes gender-outline-soft {
+  0% {opacity:0;transform:scale(.992);}
+  28% {opacity:.82;transform:scale(1);}
+  68% {opacity:.42;transform:scale(1.003);}
+  100% {opacity:0;transform:scale(1);}
 }
-.gender-trace-right {
-  right: 0;
-  transform-origin: center top;
-  animation: gender-sweep-y 450ms ease-out 95ms both;
-}
-.gender-trace-bottom {
-  bottom: 0;
-  transform-origin: right center;
-  animation: gender-sweep-x 450ms ease-out 185ms both;
-}
-.gender-trace-left {
-  left: 0;
-  transform-origin: center bottom;
-  animation: gender-sweep-y 450ms ease-out 275ms both;
-}
-@keyframes gender-sweep-x {
-  0% { opacity: 0; transform: scaleX(0); }
-  18% { opacity: 1; }
-  64% { opacity: .75; transform: scaleX(1); }
-  100% { opacity: 0; transform: scaleX(1); }
-}
-@keyframes gender-sweep-y {
-  0% { opacity: 0; transform: scaleY(0); }
-  18% { opacity: 1; }
-  64% { opacity: .75; transform: scaleY(1); }
-  100% { opacity: 0; transform: scaleY(1); }
-}
-
 
 .picker-field {
   display: flex;

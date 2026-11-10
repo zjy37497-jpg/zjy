@@ -263,7 +263,7 @@
   </view>
 
   <view wx:if="{{recordSheet}}" class="record-mask" catchtap="closeRecord">
-    <view class="record-sheet" catchtap="noop" style="bottom: {{recordKeyboardHeight}}px;">
+    <view class="record-sheet {{recordReady ? 'record-sheet-ready' : ''}}" catchtap="noop" style="bottom: {{recordKeyboardHeight}}px;">
       <view class="record-header">
         <view class="record-title-wrap">
           <image class="record-type-icon" src="{{activeRecord.icon}}" mode="aspectFit" />
