@@ -344,7 +344,7 @@
       </view>
     </view>
     <view class="voice-button">
-      <image class="voice-ellipse" src="/images/figma/voice-hold-ellipse.svg" mode="scaleToFill" />
+      <image class="voice-ellipse" src="/images/figma/voice-hold-ellipse.webp" mode="scaleToFill" />
       <image class="voice-button-icon" src="/images/figma/voice-mic-active-ref.png" mode="aspectFit" />
     </view>
   </view>

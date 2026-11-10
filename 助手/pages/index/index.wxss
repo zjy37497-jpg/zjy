@@ -1169,41 +1169,41 @@
   width: 790rpx; height: 880rpx;
   top: -230rpx; right: -330rpx;
   background: radial-gradient(ellipse at center, rgba(255,173,180,.53) 0%, rgba(255,173,180,.19) 48%, rgba(255,173,180,0) 76%);
-  animation: voice-drift-coral 11s ease-in-out infinite alternate;
+  animation: voice-drift-coral 6.1s ease-in-out infinite alternate;
 }
 .voice-blob-peach {
   width: 850rpx; height: 820rpx;
   top: 290rpx; left: -370rpx;
   background: radial-gradient(ellipse at center, rgba(255,216,163,.45) 0%, rgba(255,216,163,.17) 50%, rgba(255,216,163,0) 78%);
-  animation: voice-drift-peach 13s ease-in-out infinite alternate;
+  animation: voice-drift-peach 7.2s ease-in-out infinite alternate;
 }
 .voice-blob-lavender {
   width: 620rpx; height: 580rpx;
   right: -250rpx; bottom: 380rpx;
   background: radial-gradient(ellipse at center, rgba(216,205,249,.35) 0%, rgba(216,205,249,.11) 48%, rgba(216,205,249,0) 78%);
-  animation: voice-drift-lavender 10s ease-in-out infinite alternate;
+  animation: voice-drift-lavender 5.5s ease-in-out infinite alternate;
 }
 .voice-blob-mint {
   width: 480rpx; height: 460rpx;
   left: 270rpx; bottom: 310rpx;
   background: radial-gradient(ellipse at center, rgba(202,230,218,.30) 0%, rgba(202,230,218,.09) 51%, rgba(202,230,218,0) 78%);
-  animation: voice-drift-mint 12s ease-in-out infinite alternate;
+  animation: voice-drift-mint 6.6s ease-in-out infinite alternate;
 }
 @keyframes voice-drift-coral {
-  from { transform: translate3d(-30rpx, 30rpx, 0) scale(.95); }
-  to { transform: translate3d(80rpx, -90rpx, 0) scale(1.10); }
+  from { transform: translate3d(-57rpx, 57rpx, 0) scale(0.91); }
+  to { transform: translate3d(152rpx, -171rpx, 0) scale(1.17); }
 }
 @keyframes voice-drift-peach {
-  from { transform: translate3d(20rpx, -60rpx, 0) scale(1); }
-  to { transform: translate3d(120rpx, 50rpx, 0) scale(1.12); }
+  from { transform: translate3d(38rpx, -114rpx, 0) scale(1.0); }
+  to { transform: translate3d(228rpx, 95rpx, 0) scale(1.2); }
 }
 @keyframes voice-drift-lavender {
-  from { transform: translate3d(20rpx, -40rpx, 0) scale(.94); }
-  to { transform: translate3d(-90rpx, 90rpx, 0) scale(1.13); }
+  from { transform: translate3d(38rpx, -76rpx, 0) scale(0.9); }
+  to { transform: translate3d(-171rpx, 171rpx, 0) scale(1.22); }
 }
 @keyframes voice-drift-mint {
-  from { transform: translate3d(-45rpx, 20rpx, 0) scale(.92); }
-  to { transform: translate3d(75rpx, -75rpx, 0) scale(1.12); }
+  from { transform: translate3d(-86rpx, 38rpx, 0) scale(0.86); }
+  to { transform: translate3d(142rpx, -142rpx, 0) scale(1.2); }
 }
 .voice-content {
   position: relative; z-index: 2;
