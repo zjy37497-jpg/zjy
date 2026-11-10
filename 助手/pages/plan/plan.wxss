@@ -785,3 +785,18 @@
 .scroll-spacer.has-result { height: 0; }
 .plan-scroll:has(.plan-reveal) { padding-bottom: 0; }
 .plan-reveal { margin-bottom: 0; }
+
+/* Reliable native-card reconstruction: PNG person stays above the gradient.
+   No unsupported alpha SVG mask, and no image-overlay dependency. */
+.plan-visual-heading{box-sizing:border-box;padding:40rpx 32rpx 30rpx;min-height:104rpx;font-size:36rpx;line-height:1.3;font-weight:650;color:#291d1f;background:#fff}
+.plan-visual-hero{position:relative;height:382rpx;background:linear-gradient(145deg,#625b5b,#241b1c);overflow:hidden}
+.plan-visual-person{position:absolute;z-index:2;right:10%;top:0;width:45%;height:100%;display:block}
+.plan-visual-darkfade{position:absolute;z-index:3;inset:0;background:linear-gradient(0deg,rgba(30,21,23,.91) 0%,rgba(30,21,23,.05) 55%,transparent 92%);pointer-events:none}
+.plan-visual-copy{position:absolute;left:32rpx;bottom:25rpx;z-index:4;color:#fff}
+.plan-visual-tag{display:inline-block;padding:13rpx 23rpx;border-radius:100rpx;background:rgba(255,255,255,.2);font-size:24rpx}
+.plan-visual-title{margin-top:20rpx;font-size:42rpx;font-weight:650;line-height:1.2}
+.plan-visual-desc{margin-top:10rpx;color:rgba(255,255,255,.75);font-size:22rpx}
+.plan-visual-button{display:flex;align-items:center;justify-content:center;height:88rpx;margin:42rpx 42rpx 40rpx;border-radius:50rpx;background:linear-gradient(90deg,#ffa771,#ff4938);color:#fff;font-size:29rpx;font-weight:600}
+.plan-page .quick-chip{flex:none;padding:0;margin-right:10rpx;background:transparent;overflow:hidden;border-radius:40rpx}
+.plan-page .quick-chip-art{display:block;width:100%;height:72rpx}
+.plan-page .quick-row{width:809rpx}

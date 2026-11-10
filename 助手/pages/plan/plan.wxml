@@ -140,18 +140,17 @@
       <!-- Result arrives after completion, like the supplied reference clip. -->
       <view wx:if="{{planGenerated}}" id="generated-plan" class="plan-reveal">
         <view class="plan-result-card">
-          <image wx:if="{{!planCardImageFailed}}" class="plan-result-card-art" src="/images/figma/plan-customized-card.webp" mode="widthFix" bindload="onPlanCardImageLoad" binderror="onPlanCardImageError" />
-          <image wx:if="{{!planCardImageFailed}}" class="plan-person-overlay" src="/images/figma/plan-person.png" mode="aspectFit" />
-          <view wx:if="{{planCardImageFailed}}" class="plan-result-fallback">
-            <view class="plan-fallback-heading">定制专属训练计划</view>
-            <view class="plan-fallback-hero">
-              <text class="plan-fallback-tag">12节课程</text>
-              <text class="plan-fallback-title">全身力量训练</text>
-              <text class="plan-fallback-subtitle">根据你的身体情况与训练目标生成</text>
+          <view class="plan-visual-heading">定制专属训练计划</view>
+          <view class="plan-visual-hero">
+            <image class="plan-visual-person" src="/images/figma/plan-person.png" mode="aspectFit" />
+            <view class="plan-visual-darkfade"></view>
+            <view class="plan-visual-copy">
+              <view class="plan-visual-tag">12节课程</view>
+              <view class="plan-visual-title">全身力量训练</view>
+              <view class="plan-visual-desc">首次使用可免费跟练3天</view>
             </view>
-            <view class="plan-fallback-cta" bindtap="togglePlanDetails">我的训练计划</view>
           </view>
-          <view wx:if="{{!planCardImageFailed}}" class="plan-result-hit-area" bindtap="togglePlanDetails" aria-label="我的训练计划"></view>
+          <view class="plan-visual-button" bindtap="togglePlanDetails">我的训练计划</view>
         </view>
         <view wx:if="{{planDetailsOpen}}" id="plan-details" class="result-sheet plan-details-reveal">
           <view class="result-eyebrow">你的专属安排</view>
@@ -180,18 +179,10 @@
   <view id="plan-dock" class="plan-dock">
     <scroll-view class="quick-tabs" scroll-x="{{true}}" enhanced="{{true}}" show-scrollbar="{{false}}" aria-label="左右滑动快捷功能">
       <view class="quick-row">
-        <view class="quick-chip quick-training" bindtap="stayOnPlan" aria-label="训练计划">
-          <text class="quick-icon quick-icon-training">🏋️</text><text class="quick-label">训练计划</text>
-        </view>
-        <view class="quick-chip quick-exercise" data-action="exercise" bindtap="openQuick" aria-label="运动记录">
-          <text class="quick-icon quick-icon-exercise">☑️</text><text class="quick-label">运动记录</text>
-        </view>
-        <view class="quick-chip quick-diet" data-action="diet" bindtap="openQuick" aria-label="饮食记录">
-          <text class="quick-icon quick-icon-diet">♟</text><text class="quick-label">饮食记录</text>
-        </view>
-        <view class="quick-chip quick-weight" data-action="weight" bindtap="openQuick" aria-label="体重记录">
-          <text class="quick-icon quick-icon-weight">▣</text><text class="quick-label">体重记录</text>
-        </view>
+        <view class="quick-chip quick-training" bindtap="stayOnPlan" aria-label="训练计划"><image class="quick-chip-art" src="/images/figma/quick-training-new.webp" mode="aspectFit" /></view>
+        <view class="quick-chip quick-exercise" data-action="exercise" bindtap="openQuick" aria-label="运动记录"><image class="quick-chip-art" src="/images/figma/quick-exercise-new.webp" mode="aspectFit" /></view>
+        <view class="quick-chip quick-diet" data-action="diet" bindtap="openQuick" aria-label="饮食记录"><image class="quick-chip-art" src="/images/figma/quick-diet-new.webp" mode="aspectFit" /></view>
+        <view class="quick-chip quick-weight" data-action="weight" bindtap="openQuick" aria-label="体重记录"><image class="quick-chip-art" src="/images/figma/quick-weight-new.webp" mode="aspectFit" /></view>
       </view>
     </scroll-view>
     <view class="plan-composer">

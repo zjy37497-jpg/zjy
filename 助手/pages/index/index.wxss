@@ -1420,3 +1420,6 @@
 .hero-slogan-animated {
   isolation: isolate;
 }
+
+/* The mascot body is a PNG layer, not the animated eyes or transparent background. */
+.mascot-body{display:block;z-index:1;opacity:1;visibility:visible}
