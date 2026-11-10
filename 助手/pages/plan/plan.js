@@ -10,6 +10,7 @@ function today() {
 Page({
   data: Object.assign({}, ui.getNavMetrics(), {
     gender: 'female',
+    genderSwitchAnimated: false,
     ages: AGES,
     age: 28,
     ageIndex: 12,
@@ -175,7 +176,7 @@ Page({
   selectGender(e) {
     const next = e.currentTarget.dataset.value;
     if (next === this.data.gender) return;
-    this.setData({ gender: next });
+    this.setData({ gender: next, genderSwitchAnimated: true });
     this.tickHaptic('selection', true);
   },
 
@@ -222,6 +223,42 @@ Page({
     if (!immediate && now - (this._lastHapticAt || 0) < 85) return;
     this._lastHapticAt = now;
     try { wx.vibrateShort({ type: 'light', fail: () => {} }); } catch (_) {}
+  },
+
+  // P1 custom track keeps the visual thumb exactly aligned to the touched point.
+  // Cache the rect at gesture start to avoid measuring on every finger movement.
+  onMetricTouchStart(e) {
+    const metric = e.currentTarget.dataset.metric;
+    if (metric !== 'height' && metric !== 'weight') return;
+    this._metricTouchType = metric;
+    wx.createSelectorQuery().in(this)
+      .selectAll('.metric-slider')
+      .boundingClientRect(rects => {
+        if (!Array.isArray(rects)) return;
+        const index = metric === 'height' ? 0 : 1;
+        this._metricRect = rects[index] || null;
+        if (this._metricTouchType === metric) this.onMetricTouchMove(e);
+      }).exec();
+  },
+
+  onMetricTouchMove(e) {
+    const metric = this._metricTouchType;
+    const rect = this._metricRect;
+    const touch = (e.touches && e.touches[0]) || (e.changedTouches && e.changedTouches[0]);
+    if (!metric || !rect || !touch || !rect.width) return;
+    const progress = Math.max(0, Math.min(1, (touch.clientX - rect.left) / rect.width));
+    const min = metric === 'height' ? 140 : 35;
+    const max = metric === 'height' ? 210 : 150;
+    const next = Math.round(min + progress * (max - min));
+    if (this.data[metric] === next) return;
+    this.tickHaptic(metric);
+    this.setData({ [metric]: next });
+  },
+
+  onMetricTouchEnd(e) {
+    this.onMetricTouchMove(e);
+    this._metricTouchType = '';
+    this._metricRect = null;
   },
 
   changeHeight(e) {

@@ -27,10 +27,22 @@
             <view class="gender-card {{gender === 'male' ? 'gender-selected' : ''}}" data-value="male" bindtap="selectGender" aria-label="男">
               <image class="gender-image gender-image-muted" src="/images/figma/gender-male.png" mode="scaleToFill" />
               <image class="gender-image gender-image-color {{gender === 'male' ? 'is-visible' : ''}}" src="/images/figma/gender-male.png" mode="scaleToFill" />
+              <view wx:if="{{gender === 'male' && genderSwitchAnimated}}" class="gender-border-flow male-flow">
+                <view class="gender-trace gender-trace-top"></view>
+                <view class="gender-trace gender-trace-right"></view>
+                <view class="gender-trace gender-trace-bottom"></view>
+                <view class="gender-trace gender-trace-left"></view>
+              </view>
             </view>
             <view class="gender-card {{gender === 'female' ? 'gender-selected' : ''}}" data-value="female" bindtap="selectGender" aria-label="女">
               <image class="gender-image gender-image-muted" src="/images/figma/gender-female.png" mode="scaleToFill" />
               <image class="gender-image gender-image-color {{gender === 'female' ? 'is-visible' : ''}}" src="/images/figma/gender-female.png" mode="scaleToFill" />
+              <view wx:if="{{gender === 'female' && genderSwitchAnimated}}" class="gender-border-flow female-flow">
+                <view class="gender-trace gender-trace-top"></view>
+                <view class="gender-trace gender-trace-right"></view>
+                <view class="gender-trace gender-trace-bottom"></view>
+                <view class="gender-trace gender-trace-left"></view>
+              </view>
             </view>
           </view>
         </view>
@@ -48,18 +60,14 @@
             <view><text class="label-bar"></text>身高</view>
             <view class="metric-value">{{height}}<text>cm</text></view>
           </view>
-          <slider
-            min="140"
-            max="210"
-            value="{{height}}"
-            step="1"
-            activeColor="#ffaa97"
-            backgroundColor="#f0eff0"
-            blockColor="#ff9988"
-            blockSize="24"
-            bindchanging="changeHeight"
-            bindchange="changeHeight"
-          />
+          <view class="metric-slider" data-metric="height" catchtouchstart="onMetricTouchStart" catchtouchmove="onMetricTouchMove" catchtouchend="onMetricTouchEnd" catchtouchcancel="onMetricTouchEnd" aria-label="身高滑杆，当前{{height}}厘米">
+            <view class="metric-slider-track">
+              <view class="metric-slider-fill" style="width: {{(height - 140) / 70 * 100}}%;"></view>
+            </view>
+            <view class="metric-slider-thumb" style="left: {{(height - 140) / 70 * 100}}%;">
+              <view class="metric-slider-thumb-line"></view>
+            </view>
+          </view>
         </view>
 
         <view class="form-group">
@@ -67,18 +75,14 @@
             <view><text class="label-bar"></text>体重</view>
             <view class="metric-value">{{weight}}<text>kg</text></view>
           </view>
-          <slider
-            min="35"
-            max="150"
-            value="{{weight}}"
-            step="1"
-            activeColor="#ffaa97"
-            backgroundColor="#f0eff0"
-            blockColor="#ff9988"
-            blockSize="24"
-            bindchanging="changeWeight"
-            bindchange="changeWeight"
-          />
+          <view class="metric-slider" data-metric="weight" catchtouchstart="onMetricTouchStart" catchtouchmove="onMetricTouchMove" catchtouchend="onMetricTouchEnd" catchtouchcancel="onMetricTouchEnd" aria-label="体重滑杆，当前{{weight}}千克">
+            <view class="metric-slider-track">
+              <view class="metric-slider-fill" style="width: {{(weight - 35) / 115 * 100}}%;"></view>
+            </view>
+            <view class="metric-slider-thumb" style="left: {{(weight - 35) / 115 * 100}}%;">
+              <view class="metric-slider-thumb-line"></view>
+            </view>
+          </view>
         </view>
 
         <view class="form-group">
