@@ -173,24 +173,24 @@
         </view>
       </view>
 
-      <view class="scroll-spacer"></view>
+      <view class="scroll-spacer {{planGenerated ? 'has-result' : ''}}"></view>
     </view>
   </view>
 
-  <view class="plan-dock">
+  <view id="plan-dock" class="plan-dock">
     <scroll-view class="quick-tabs" scroll-x="{{true}}" enhanced="{{true}}" show-scrollbar="{{false}}" aria-label="左右滑动快捷功能">
       <view class="quick-row">
         <view class="quick-chip quick-training" bindtap="stayOnPlan" aria-label="训练计划">
-          <image class="quick-chip-art" src="/images/figma/quick-training.png" mode="aspectFit" />
+          <text class="quick-icon quick-icon-training">🏋️</text><text class="quick-label">训练计划</text>
         </view>
         <view class="quick-chip quick-exercise" data-action="exercise" bindtap="openQuick" aria-label="运动记录">
-          <image class="quick-chip-art" src="/images/figma/quick-exercise.png" mode="aspectFit" />
+          <text class="quick-icon quick-icon-exercise">☑️</text><text class="quick-label">运动记录</text>
         </view>
         <view class="quick-chip quick-diet" data-action="diet" bindtap="openQuick" aria-label="饮食记录">
-          <image class="quick-chip-art" src="/images/figma/quick-diet.png" mode="aspectFit" />
+          <text class="quick-icon quick-icon-diet">♟</text><text class="quick-label">饮食记录</text>
         </view>
         <view class="quick-chip quick-weight" data-action="weight" bindtap="openQuick" aria-label="体重记录">
-          <image class="quick-chip-art" src="/images/figma/quick-weight.png" mode="aspectFit" />
+          <text class="quick-icon quick-icon-weight">▣</text><text class="quick-label">体重记录</text>
         </view>
       </view>
     </scroll-view>

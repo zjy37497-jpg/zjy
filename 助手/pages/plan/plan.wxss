@@ -772,3 +772,16 @@
   0% { opacity: 0; transform: translate3d(0, 42rpx, 0); }
   100% { opacity: 1; transform: translate3d(0, 0, 0); }
 }
+
+/* Restore four functional shortcut pills without missing image assets. */
+.quick-chip { background: #f5f6fa; gap: 8rpx; padding: 0 14rpx; }
+.quick-icon { font-size: 28rpx; line-height: 1; }
+.quick-icon-training { color: #ff5755; }
+.quick-icon-exercise { color: #ffae00; }
+.quick-icon-diet { color: #00cabb; }
+.quick-icon-weight { color: #315dff; }
+.quick-label { font-size: 25rpx; white-space: nowrap; color: #322728; }
+.quick-row { width: 835rpx; }
+.scroll-spacer.has-result { height: 0; }
+.plan-scroll:has(.plan-reveal) { padding-bottom: 0; }
+.plan-reveal { margin-bottom: 0; }
