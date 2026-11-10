@@ -310,22 +310,26 @@
   margin-top: 22rpx;
 }
 
+/* Wide P3 coral-to-orange action, the original proportions at form width. */
 .generate-button {
   display: flex;
   align-items: center;
   justify-content: center;
+  box-sizing: border-box;
   width: 100%;
-  height: 86rpx;
-  margin-top: 34rpx;
-  margin-right: auto;
-  margin-left: auto;
-  border-radius: 44rpx;
-  background: linear-gradient(110deg, #ff776c, #ffa162);
+  height: 96rpx;
+  margin: 40rpx auto 0;
+  padding: 0 16rpx;
+  border: none;
+  border-radius: 52rpx;
+  background: linear-gradient(105deg, #ffa373 0%, #ff7d62 49%, #ff4d43 100%);
   color: #fff;
-  font-size: 26rpx;
-  font-weight: 650;
+  font-size: 30rpx;
+  font-weight: 600;
   line-height: 1;
 }
+.generate-button::after { border: none; }
+.generate-button:active { opacity: .9; }
 
 .auto-fill-note {
   margin: 24rpx 16rpx 0;
@@ -675,3 +679,40 @@
   line-height: 1;
 }
 
+
+/* Plan reveal: one soft fade-and-rise, followed by natural scrolling.
+   Only opacity/transform animate to avoid iPhone image re-rasterization. */
+.plan-reveal {
+  margin-top: 24rpx;
+  animation: plan-card-enter 560ms cubic-bezier(.18,.78,.28,1) both;
+}
+.plan-result-card {
+  position: relative;
+  display: block;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 22rpx;
+  background: #fff;
+  box-shadow: 0 10rpx 26rpx rgba(74,52,53,.045);
+}
+.plan-result-card-art {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.plan-result-hit-area {
+  position: absolute;
+  left: 5%;
+  right: 5%;
+  bottom: 4%;
+  height: 21%;
+  pointer-events: none;
+}
+.plan-details-reveal {
+  margin-top: 22rpx;
+  animation: plan-card-enter 420ms cubic-bezier(.2,.7,.3,1) both;
+}
+@keyframes plan-card-enter {
+  0% { opacity: 0; transform: translate3d(0, 42rpx, 0); }
+  100% { opacity: 1; transform: translate3d(0, 0, 0); }
+}

@@ -128,8 +128,8 @@
           </view>
         </view>
 
-        <button class="generate-button {{generating ? 'is-generating' : ''}}" bindtap="generatePlan">
-          {{generating ? '正在生成…' : (planGenerated ? '重新生成我的计划' : '生成我的计划')}}
+        <button class="generate-button {{generating ? 'is-generating' : ''}}" bindtap="generatePlan" disabled="{{generating}}" aria-label="生成我的计划">
+          <text>{{generating ? '正在生成…' : '生成我的计划'}}</text>
         </button>
       </view>
 
@@ -137,23 +137,30 @@
         为便于您快速录入，将自动填入填充您在档案中的基础信息。您可以手动修改、调整相关内容，调整后的信息不回影响档案中的记录
       </view>
 
-      <view wx:if="{{planGenerated && plan}}" id="generated-plan" class="result-sheet">
-        <view class="result-eyebrow">你的专属安排</view>
-        <view class="result-title">{{plan.title}}</view>
-        <view class="result-summary">{{plan.summary}}</view>
-        <view class="result-meta">{{plan.days}} · {{plan.duration}} · {{plan.level}}</view>
-        <view wx:for="{{plan.sessions}}" wx:key="day" class="session-row">
-          <view class="session-day">{{item.day}}</view>
-          <view class="session-copy">
-            <text>{{item.title}}</text>
-            <text>{{item.desc}}</text>
-          </view>
-          <text class="session-duration">{{item.duration}}</text>
+      <!-- Result arrives after completion, like the supplied reference clip. -->
+      <view wx:if="{{planGenerated && plan}}" id="generated-plan" class="plan-reveal">
+        <view class="plan-result-card" bindtap="togglePlanDetails" aria-label="查看我的训练计划">
+          <image class="plan-result-card-art" src="/images/figma/plan-customized-card.webp" mode="widthFix" />
+          <view class="plan-result-hit-area"></view>
         </view>
-        <view class="result-advice">{{plan.advice}}</view>
-        <button class="checkin-button {{done ? 'checked' : ''}}" bindtap="checkin">
-          {{done ? '今日已打卡 ✓' : '今天先完成一小节'}}
-        </button>
+        <view wx:if="{{planDetailsOpen}}" id="plan-details" class="result-sheet plan-details-reveal">
+          <view class="result-eyebrow">你的专属安排</view>
+          <view class="result-title">{{plan.title}}</view>
+          <view class="result-summary">{{plan.summary}}</view>
+          <view class="result-meta">{{plan.days}} · {{plan.duration}} · {{plan.level}}</view>
+          <view wx:for="{{plan.sessions}}" wx:key="day" class="session-row">
+            <view class="session-day">{{item.day}}</view>
+            <view class="session-copy">
+              <text>{{item.title}}</text>
+              <text>{{item.desc}}</text>
+            </view>
+            <text class="session-duration">{{item.duration}}</text>
+          </view>
+          <view class="result-advice">{{plan.advice}}</view>
+          <button class="checkin-button {{done ? 'checked' : ''}}" bindtap="checkin">
+            {{done ? '今日已打卡 ✓' : '今天先完成一小节'}}
+          </button>
+        </view>
       </view>
 
       <view class="scroll-spacer"></view>

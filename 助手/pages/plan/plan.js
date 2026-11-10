@@ -56,6 +56,7 @@ Page({
     expanded: true,
     generating: false,
     planGenerated: false,
+    planDetailsOpen: false,
     plan: null,
     done: false,
     anchor: '',
@@ -100,7 +101,8 @@ Page({
       goal: saved.goal || '养成运动习惯',
       place: saved.place || '居家训练',
       plan: saved.plan || null,
-      planGenerated: Boolean(saved.plan)
+      planGenerated: Boolean(saved.plan),
+      planDetailsOpen: false
     };
     if (Array.isArray(saved.equipment)) {
       patch.equipmentOptions = this.data.equipmentOptions.map(item => ({
@@ -167,7 +169,7 @@ Page({
       success: res => {
         if (res.tapIndex === 0) this.goChat();
         if (res.tapIndex === 1) {
-          this.setData({ planGenerated: false, anchor: '', expanded: false });
+          this.setData({ planGenerated: false, planDetailsOpen: false, anchor: '', expanded: false });
         }
       }
     });
@@ -408,7 +410,7 @@ Page({
 
   generatePlan() {
     if (this.data.generating) return;
-    this.setData({ generating: true });
+    this.setData({ generating: true, planDetailsOpen: false });
     this.timer = setTimeout(() => {
       const plan = this.buildPlan();
       const profile = {
@@ -432,8 +434,22 @@ Page({
         planGenerated: true,
         plan,
         anchor: 'generated-plan'
+      }, () => {
+        // Scroll smoothly after the card mounts; no instantaneous layout jump.
+        wx.nextTick(() => {
+          wx.pageScrollTo({ selector: '#generated-plan', duration: 500, offsetTop: -135, fail: () => {} });
+        });
       });
     }, 720);
+  },
+
+  togglePlanDetails() {
+    const opening = !this.data.planDetailsOpen;
+    this.setData({ planDetailsOpen: opening }, () => {
+      if (opening) wx.nextTick(() => {
+        wx.pageScrollTo({ selector: '#plan-details', duration: 420, offsetTop: -130, fail: () => {} });
+      });
+    });
   },
 
   checkin() {
