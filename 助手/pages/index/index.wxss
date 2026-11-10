@@ -1040,8 +1040,8 @@
   -webkit-backdrop-filter: blur(35rpx);
   backdrop-filter: blur(35rpx);
   box-shadow: 0 22rpx 64rpx rgba(49,39,41,.15), inset 0 1rpx 0 rgba(255,255,255,.95);
-  transform-origin: 50% 100%;
-  animation: photo-menu-float-in 210ms cubic-bezier(.22,1,.36,1) both;
+  transform-origin: 82% 100%;
+  animation: photo-menu-float-in 390ms cubic-bezier(.22,.82,.24,1) both;
 }
 .photo-popover::before {
   position: absolute;
@@ -1071,9 +1071,29 @@
   flex: none;
   margin-right: 28rpx;
 }
+/* Reference: compact blurred capsule expands from the add button, briefly
+   overshoots and gently settles. Only transform/opacity animate on phones. */
 @keyframes photo-menu-float-in {
-  0% { opacity: 0; transform: translate3d(0,10rpx,0) scale(.985); }
-  100% { opacity: 1; transform: translate3d(0,0,0) scale(1); }
+  0% {
+    opacity: 0;
+    transform: translate3d(94rpx, 30rpx, 0) scale(.46, .58);
+  }
+  25% {
+    opacity: .65;
+    transform: translate3d(49rpx, 17rpx, 0) scale(.76, .83);
+  }
+  62% {
+    opacity: 1;
+    transform: translate3d(-3rpx, -4rpx, 0) scale(1.025, 1.025);
+  }
+  82% {
+    opacity: 1;
+    transform: translate3d(0, 2rpx, 0) scale(.995);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
 }
 
 .composer-mic-icon { width: 44rpx; height: 44rpx; opacity: .96; }
