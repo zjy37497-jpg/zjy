@@ -259,7 +259,7 @@
   </view>
 
   <view wx:if="{{recordSheet}}" class="record-mask" catchtap="closeRecord">
-    <view class="record-sheet" catchtap="noop">
+    <view class="record-sheet" catchtap="noop" style="bottom: {{recordKeyboardHeight}}px;">
       <view class="record-header">
         <view class="record-title-wrap">
           <image class="record-type-icon" src="{{activeRecord.icon}}" mode="aspectFit" />
@@ -284,8 +284,9 @@
             focus="{{recordFocus}}"
             hold-keyboard="true"
             confirm-hold="true"
-            cursor-color="#ff5f58"
-            cursor-spacing="22"
+            adjust-position="false"
+            cursor-spacing="0"
+            bindkeyboardheightchange="onRecordKeyboardHeightChange"
             bindinput="onRecordInput"
             bindfocus="hidePhotoMenu"
             bindconfirm="sendRecord"
