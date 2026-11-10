@@ -142,7 +142,7 @@
         <view class="plan-result-card">
           <view class="plan-visual-heading">定制专属训练计划</view>
           <view class="plan-visual-hero">
-            <image class="plan-visual-person" src="/images/figma/plan-person.png" mode="aspectFit" />
+            <image class="plan-visual-person" src="/images/figma/result-person-safe.png" mode="aspectFit" />
             <view class="plan-visual-darkfade"></view>
             <view class="plan-visual-copy">
               <view class="plan-visual-tag">12节课程</view>

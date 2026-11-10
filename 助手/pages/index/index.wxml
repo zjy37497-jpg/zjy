@@ -41,7 +41,7 @@
     <view wx:if="{{!messages.length}}">
       <view class="home-hero">
         <view class="mascot-stage">
-          <image class="mascot-body" src="/images/figma/mascot-body.png" mode="scaleToFill" />
+          <image class="mascot-body" src="/images/figma/mascot-body-safe.png" mode="scaleToFill" />
           <image class="mascot-star-layer" src="/images/figma/mascot-star-full.png" mode="scaleToFill" />
           <view class="mascot-eyes-layer">
             <image class="mascot-eye-left" src="/images/figma/mascot-eye-left.png" mode="scaleToFill" />

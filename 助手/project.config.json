@@ -37,6 +37,14 @@
       {
         "type": "file",
         "value": ".gitignore"
+      },
+      {
+        "type": "file",
+        "value": "images/figma/mascot-body.png"
+      },
+      {
+        "type": "file",
+        "value": "images/figma/plan-person.png"
       }
     ],
     "include": []

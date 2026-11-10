@@ -782,7 +782,7 @@
 .quick-icon-weight { color: #315dff; }
 .quick-label { font-size: 25rpx; white-space: nowrap; color: #322728; }
 .quick-row { width: 835rpx; }
-.scroll-spacer.has-result { height: 0; }
+.scroll-spacer.has-result { height: 312rpx; }
 .plan-scroll:has(.plan-reveal) { padding-bottom: 0; }
 .plan-reveal { margin-bottom: 0; }
 
