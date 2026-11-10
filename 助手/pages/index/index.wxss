@@ -390,12 +390,53 @@
   white-space: pre-wrap;
 }
 
-.sticker {
-  display: block;
+/* ZIP reference: muted placeholder, then top-to-bottom soft image reveal. */
+.sticker-wrap {
+  position: relative;
   width: 250rpx;
   height: 250rpx;
   margin-top: 14rpx;
   border-radius: 14rpx;
+  overflow: hidden;
+}
+.sticker-wrap::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 14rpx;
+  background: #e6e6ea;
+  animation: sticker-placeholder 1000ms ease-out both;
+}
+.sticker {
+  position: relative;
+  display: block;
+  width: 250rpx;
+  height: 250rpx;
+  border-radius: 14rpx;
+  -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 33.3%, transparent 66.6%, transparent 100%);
+  mask-image: linear-gradient(180deg, #000 0%, #000 33.3%, transparent 66.6%, transparent 100%);
+  -webkit-mask-size: 100% 300%;
+  mask-size: 100% 300%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  animation: sticker-reveal 800ms cubic-bezier(.25,.6,.3,1) 160ms both;
+}
+@keyframes sticker-placeholder {
+  0% { opacity: 0; }
+  16%, 70% { opacity: 1; }
+  100% { opacity: 0; }
+}
+@keyframes sticker-reveal {
+  from {
+    -webkit-mask-position: 0 100%;
+    mask-position: 0 100%;
+    filter: grayscale(1) opacity(.55);
+  }
+  to {
+    -webkit-mask-position: 0 0;
+    mask-position: 0 0;
+    filter: grayscale(0) opacity(1);
+  }
 }
 
 .ai-credit {
