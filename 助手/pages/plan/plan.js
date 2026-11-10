@@ -225,27 +225,32 @@ Page({
     try { wx.vibrateShort({ type: 'light', fail: () => {} }); } catch (_) {}
   },
 
-  // P1 custom track keeps the visual thumb exactly aligned to the touched point.
-  // Cache the rect at gesture start to avoid measuring on every finger movement.
+  // P1 custom slider: keep its touch hitbox identical to the visible track.
+  // A brief tap must still update the value even if the first rect query is delayed.
   onMetricTouchStart(e) {
     const metric = e.currentTarget.dataset.metric;
     if (metric !== 'height' && metric !== 'weight') return;
     this._metricTouchType = metric;
-    wx.createSelectorQuery().in(this)
-      .selectAll('.metric-slider')
-      .boundingClientRect(rects => {
-        if (!Array.isArray(rects)) return;
-        const index = metric === 'height' ? 0 : 1;
-        this._metricRect = rects[index] || null;
-        if (this._metricTouchType === metric) this.onMetricTouchMove(e);
-      }).exec();
+    this._metricTapEnded = false;
+    this._metricRect = null;
+    this._metricLastTouch = e.touches && e.touches[0];
+    const index = metric === 'height' ? 0 : 1;
+    wx.createSelectorQuery().in(this).selectAll('.metric-slider').boundingClientRect(rects => {
+      if (!Array.isArray(rects)) return;
+      if (this._metricTouchType !== metric) return;
+      this._metricRect = rects[index] || null;
+      this.applyMetricTouch(metric, this._metricLastTouch);
+      if (this._metricTapEnded) {
+        this._metricTouchType = '';
+        this._metricRect = null;
+        this._metricTapEnded = false;
+      }
+    }).exec();
   },
 
-  onMetricTouchMove(e) {
-    const metric = this._metricTouchType;
+  applyMetricTouch(metric, touch) {
     const rect = this._metricRect;
-    const touch = (e.touches && e.touches[0]) || (e.changedTouches && e.changedTouches[0]);
-    if (!metric || !rect || !touch || !rect.width) return;
+    if (!rect || !touch || !rect.width) return;
     const progress = Math.max(0, Math.min(1, (touch.clientX - rect.left) / rect.width));
     const min = metric === 'height' ? 140 : 35;
     const max = metric === 'height' ? 210 : 150;
@@ -255,10 +260,28 @@ Page({
     this.setData({ [metric]: next });
   },
 
+  onMetricTouchMove(e) {
+    const metric = this._metricTouchType;
+    if (!metric) return;
+    const touch = (e.touches && e.touches[0]) || (e.changedTouches && e.changedTouches[0]);
+    if (!touch) return;
+    this._metricLastTouch = touch;
+    this.applyMetricTouch(metric, touch);
+  },
+
   onMetricTouchEnd(e) {
-    this.onMetricTouchMove(e);
-    this._metricTouchType = '';
-    this._metricRect = null;
+    const metric = this._metricTouchType;
+    if (!metric) return;
+    const touch = (e.changedTouches && e.changedTouches[0]) || this._metricLastTouch;
+    this._metricLastTouch = touch;
+    if (this._metricRect) {
+      this.applyMetricTouch(metric, touch);
+      this._metricTouchType = '';
+      this._metricRect = null;
+    } else {
+      // Allow the pending layout measurement to resolve a quick tap.
+      this._metricTapEnded = true;
+    }
   },
 
   changeHeight(e) {
