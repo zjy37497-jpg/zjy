@@ -1,0 +1,23 @@
+<view class="profile-page">
+  <view class="title">你的个人档案</view>
+  <view class="note">开启记忆后，聊天中明确说出的长期目标、习惯和本人基础信息会自动更新档案；健康限制等敏感资料仍需确认。可随时更正、删除或关闭记忆。</view>
+  <view wx:if="{{error}}" class="error">{{error}}</view>
+  <button wx:if="{{!ready}}" bindtap="refresh" loading="{{loading}}" disabled="{{loading}}">重新连接</button>
+  <block wx:if="{{ready}}">
+    <view class="state">长期记忆：{{enabled ? '已开启，普通资料自动记录，健康资料仍需确认' : '已关闭，不读取档案生成建议'}}</view>
+    <button bindtap="toggleMemory" disabled="{{loading}}">{{enabled ? '关闭记忆' : '开启记忆'}}</button>
+    <view class="note">新增资料：直接在聊天中告诉助手你的情况，或更正之前的信息。关闭不会删除旧资料；需要删除请使用下方按钮。</view>
+    <view wx:if="{{!records.length}}" class="empty">尚无已保存资料</view>
+    <view wx:for="{{records}}" wx:key="id" class="record">
+      <view class="category">{{item.categoryName}}</view>
+      <view class="statement">{{item.statement}}</view>
+      <view class="meta">{{item.statusName}} · 更新于 {{item.updatedAt}}</view>
+      <view class="actions">
+        <button size="mini" data-id="{{item.id}}" bindtap="editRecord" disabled="{{loading || !enabled}}">更正</button>
+        <button size="mini" data-id="{{item.id}}" bindtap="removeRecord" disabled="{{loading}}">删除</button>
+      </view>
+    </view>
+    <button class="danger" bindtap="clearAll" disabled="{{loading}}">清空本机档案并关闭记忆</button>
+    <view class="note">只管理本机个人档案，不清除当前聊天和本地计划。清除开发者工具缓存或卸载后档案也会丢失，不跨设备同步。</view>
+  </block>
+</view>

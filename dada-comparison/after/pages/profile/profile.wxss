@@ -1,0 +1,12 @@
+.profile-page { padding: 36rpx; background: #f2fbf6; min-height: 100vh; box-sizing: border-box; color: #1c2b24; }
+.title { font-size: 42rpx; font-weight: 600; margin-bottom: 20rpx; }
+.note, .meta { font-size: 25rpx; color: #6f8077; line-height: 1.7; margin: 20rpx 0; }
+.state { margin: 28rpx 0; font-size: 28rpx; }
+.record { background: white; padding: 28rpx; border-radius: 24rpx; margin: 24rpx 0; }
+.category { color: #1b8a5f; font-size: 25rpx; }
+.statement { font-size: 30rpx; line-height: 1.6; margin-top: 12rpx; white-space: pre-wrap; word-break: break-all; }
+.actions { display: flex; gap: 20rpx; justify-content: flex-end; }
+.actions button { margin: 0; }
+button { border-radius: 20rpx; font-size: 28rpx; }
+.danger, .error { color: #a53340; }
+.empty { text-align: center; padding: 50rpx 0; color: #6f8077; }

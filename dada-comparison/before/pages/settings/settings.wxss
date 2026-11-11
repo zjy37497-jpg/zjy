@@ -1,0 +1,1 @@
+.settings{padding:40rpx;line-height:1.7}.title{font-size:40rpx;font-weight:bold}input{background:#f1f3f5;padding:20rpx;margin:12rpx 0 30rpx}button{margin:36rpx 0}text{font-size:25rpx;color:#666}switch{float:right}

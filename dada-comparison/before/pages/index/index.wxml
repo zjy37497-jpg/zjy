@@ -1,0 +1,42 @@
+<view class="page">
+  <scroll-view class="chat" scroll-y scroll-into-view="{{anchor}}" scroll-with-animation>
+    <view class="header">
+      <view class="brand-row">
+        <text class="brand">搭练</text>
+        <text class="chip">AI 健身助手 · 基础版</text>
+      </view>
+      <view class="headline">今天，也陪你练一点。</view>
+      <view class="subline">{{modeLine}}</view>
+      <view class="tools"><text class="link" bindtap="openSettings">接口设置</text><text class="sep">·</text>
+        <text class="link" bindtap="toggleMode">{{useAI ? '切换到本地示例回复' : '切换到直连 AI'}}</text>
+      </view>
+    </view>
+
+    <view class="list">
+      <view wx:for="{{messages}}" wx:key="id" class="row {{item.role}}">
+        <view class="bubble {{item.role}}">
+          <text class="msg" user-select>{{item.text}}</text>
+          <text wx:if="{{item.trace}}" class="trace">调用记录：{{item.trace}}</text>
+          <view wx:if="{{item.card}}" class="card" bindtap="openSample">
+            <view class="card-icon">↗</view>
+            <view class="card-body">
+              <view class="card-title">20分钟 · 居家入门</view>
+              <view class="card-sub">无器械也能开始，查看训练示例</view>
+            </view>
+          </view>
+        </view>
+      </view>
+      <view wx:if="{{loading}}" class="row assistant">
+        <view class="bubble assistant"><text class="msg dim">正在思考…</text></view>
+      </view>
+      <view class="clear" bindtap="clear">清空本次对话</view>
+      <view id="end-{{endSeq}}" class="end"></view>
+    </view>
+  </scroll-view>
+
+  <view class="composer">
+    <input class="input" value="{{input}}" placeholder="想练什么，和搭练说说…" placeholder-class="ph"
+      confirm-type="send" maxlength="500" cursor-spacing="24" bindinput="onInput" bindconfirm="onSend" />
+    <view class="send {{loading ? 'off' : ''}}" bindtap="onSend">发送</view>
+  </view>
+</view>
