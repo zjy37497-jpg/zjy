@@ -26,5 +26,11 @@ Page({
     if (getCurrentPages().length > 1) wx.navigateBack({ delta: 1, fail: fallback });
     else fallback();
   },
+  clearKey() {
+    try {
+      config.clearKey();
+      this.setData({ form: config.get(), status: '已清除本机密钥。下次使用需要重新填写。' });
+    } catch (error) { this.setData({status: '清除失败，请重试。'}); }
+  },
   openChat() { wx.reLaunch({ url: '/pages/index/index' }); }
 });

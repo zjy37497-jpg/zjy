@@ -33,7 +33,7 @@ async function run(){
  responses=['fail'];await assert.rejects(basic.chat([{role:'user',text:'你好'}],config),/网络请求失败/);
  profile.confirm(profile.propose({operation:'delete',record_id:id},'',true).token);assert.equal(profile.get(true).records.length,1);
  profile.confirm(profile.propose({operation:'clear'},'',true).token);assert.equal(profile.get(true).records.length,0);assert.equal(profile.get(true).enabled,false);
- const settings=require('../after/utils/config');settings.save(config);assert.ok(!Object.values(storage).join('').includes('test-only'));assert.equal(settings.get().apiKey,'test-only');
- console.log('PASS: profile lifecycle, consent, deduplication, stale writes, retrieval, tool loop, disabled tools, baseline isolation, network errors, key not persisted.');
+ const settings=require('../after/utils/config');settings.save(config);assert.equal(settings.get().apiKey,'test-only');delete require.cache[require.resolve('../after/utils/config')];const reloaded=require('../after/utils/config');assert.equal(reloaded.get().apiKey,'test-only');assert.equal(reloaded.get().model,'glm-4-flash-250414');reloaded.clearKey();assert.equal(reloaded.get().apiKey,'');assert.equal(reloaded.get().rag,true);
+ console.log('PASS: profile lifecycle, consent, deduplication, stale writes, retrieval, tool loop, disabled tools, baseline isolation, network errors, key survives reload and can be cleared.');
 }
 run().catch(e=>{console.error(e);process.exit(1)});
